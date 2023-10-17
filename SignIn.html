@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>EcoWanderers Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    
+
+    <style>
+      body{
+        background-repeat: no-repeat;
+        background-image: url(https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2017/11/travel-photography-tips-photojaanic-7.jpg);
+        background-size:cover;
+        background-position:center;
+        background-attachment: fixed;
+      }
+
+      #welcomeText{
+        color: white;
+        text-shadow: black 0.1em 0.1em 0.2em;
+      }
+      form{
+        color: black;
+      }
+    </style>
+
+  </head>
+  <body>
+  <div id="app">
+
+  <div class="container col-xl-10 col-xxl-8 px-4 py-5 ">
+    <div class="row align-items-center g-lg-5 py-5">
+      <div id="welcomeText" class="col-lg-7 text-center text-lg-start">
+        <h1 class="display-4 fw-bold lh-1 mb-3">Welcome to EcoWanderers</h1>
+        <p class="col-lg-10 fs-4">Helping Others Live & Travel Sustainability</p>
+      </div>
+
+      <!-- sign in / sign up -->
+      <div id="firstButton" class="d-inline col-md-10 mx-auto col-lg-5">
+        <form class="p-4 p-md-4 border rounded-3 bg-body-tertiary">
+          <!--Sign-in Button -->
+          <button class="w-100 btn btn-lg btn-success mb-3" type="button" onclick="signInPage()">Sign In</button>
+          <!--Sign-up Button -->
+          <button class="w-100 btn btn-lg btn-success" type="button" onclick="signUpPage()">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- sign up -->
+      <div id="signUpPage" class="d-none col-md-10 mx-auto col-lg-5">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+          <!-- Username -->
+          <div class="form-floating mb-3">
+            <input v-model="newEcoUsername" type="text" class="form-control" id="newEcoUsername" placeholder="EcoUsername">
+            <label for="newEcoUsername">EcoUsername</label>
+          </div>
+          <!-- Email -->
+          <div class="form-floating mb-3">
+            <input v-model="email" type="text" class="form-control" id="floatingEmail" placeholder="email">
+            <label for="floatingEmail">EcoWanderer@gmail.com</label>
+          </div>
+          <!-- Password -->
+          <div class="form-floating mb-3">
+            <input v-model="password" type="password" class="form-control" id="newPassword" placeholder="Password">
+            <label for="newPassword">Password</label>
+          </div>
+          <!-- Confirm Password -->
+          <div class="form-floating mb-3">
+            <input v-model="confirmNewPassword" type="password" class="form-control" id="confirmNewPassword" placeholder="confirmPassword">
+            <label for="confirmNewPassword"> Confirm Password</label>
+          </div>
+          <!-- Button -->
+          <button class="w-100 btn btn-lg btn-success mb-3" type="submit" v-on:click="saveInfo">Sign Up</button>
+          <button class="w-100 btn btn-lg btn-success" type="button" onclick="backToPrev()">Back</button>
+        </form>
+      </div>
+
+      <!-- sign in -->
+      <div id="signInPage" class="d-none col-md-10 mx-auto col-lg-5">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+          <!-- Username -->
+          <div class="form-floating mb-3">
+            <input v-model="EcoUsername" type="text" class="form-control" id="EcoUsername" placeholder="EcoUsername">
+            <label for="EcoUsername">EcoUsername</label>
+          </div>
+          <!-- Password -->
+          <div class="form-floating mb-3">
+            <input v-model="password" type="password" class="form-control" id="Password" placeholder="Password">
+            <label for="Password">Password</label>
+          </div>
+          <!-- Button -->
+          <button class="w-100 btn btn-lg btn-success mb-3" type="submit" v-on:click="checkAccount">Sign In</button>
+          <button class="w-100 btn btn-lg btn-success" type="button" onclick="backToPrev()">Back</button>
+        </form>
+      </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function signInPage() {
+      document.getElementById("firstButton").className = "d-none col-md-10 mx-auto col-lg-5";
+      document.getElementById("signInPage").className = "d-inline col-md-10 mx-auto col-lg-5";
+    }
+    function signUpPage() {
+      document.getElementById("firstButton").className = "d-none col-md-10 mx-auto col-lg-5";
+      document.getElementById("signUpPage").className = "d-inline col-md-10 mx-auto col-lg-5";
+    }
+    function backToPrev(){
+      document.getElementById("firstButton").className = "d-inline col-md-10 mx-auto col-lg-5";
+      document.getElementById("signUpPage").className = "d-none col-md-10 mx-auto col-lg-5";
+      document.getElementById("signInPage").className = "d-none col-md-10 mx-auto col-lg-5";
+    }
+
+  </script>
+
+
+    <!-- <script>
+      const app = Vue.createApp({
+        data(){
+          return {
+            staffId: '',
+            password: '',
+            accessControlName: '',
+            error: ''
+          };
+        },
+        methods: {
+          checkAccount: function() {
+                axios.post('http://localhost:5000/check_account', {
+                    staff_id: this.staffId,
+                    password: this.password
+                })
+                .then(response => {
+                  console.log(response.data)
+                    if ('Access_Control_Name' in response.data) {
+                        this.accessControlName = response.data.access_control_name;
+                        this.error = '';
+                        window.location.href("http://localhost/spm_project/view_role_listings.html");
+                    } else {
+                        this.error = response.data.error;
+                        this.accessControlName = '';
+                    }
+                })
+                .catch(error => {
+                console.error(error);
+                alert(error);
+                });
+
+          }
+        }
+      })
+
+    const vm = app.mount('#app')
+    </script> -->
+    </body>
+
+    <script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+</html>
