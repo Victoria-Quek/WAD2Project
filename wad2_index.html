@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <title>Go Trip</title>
+    <title>EcoWanderers</title>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <section class="nav-bar">
             <div class="logo">EcoWanderers</div>
             <ul class="menu">
-                <li><a href="#">Hotels</a></li>
+                <li><a href="travelplanner1.html">calculator</a></li>
             </ul>
             </div>
 
@@ -26,48 +27,29 @@
         <section class="banner">
             <div class="banner-text-item">
                 <div class="banner-heading">
-                    <h1>Find your next stay sustainably!</h1>
+                    <h1>Plan your next trip sustainably!</h1>
                 </div>
                 <form class="form">
-                    <input type="text" list="mylist" placeholder="Where would you like to go?">
-                    <datalist id="mylist">
-                        <option>London</option>
-                        <option>Canada</option>
-                        <option>Monaco</option>
-                        <option>France</option>
-                        <option>Japan</option>
-                        <option>Switzerland</option>
-                        <option>Seoul</option>
-                    </datalist>
-                    <input type="date" class="date">
-                    <a href="#" class="book">book</a>
+                    <input type="text" placeholder="Where would you like to go?" id="location">
+                    <input type="text" class="date" placeholder="How many days?" id="days" name="days">
+                    <input type="text" class="budget" placeholder="Budget" id="budget" name="budget">
+
+                    <button class="book" id="generateButton">Create</button>
                 </form>
             </div>
         </section>
 
-        <!--=========Services===============-->
-        <section class="services">
-            <div class="service-item">
-                <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293634/tour-guide_onzla9.png">
-                <h2>8000+ Our Local Guides</h2>
-            </div>
-            <div class="service-item">
-                <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293738/reliability_jbpn4g.png">
-                <h2>100% Trusted Tour Agency</h2>
-            </div>
-            <div class="service-item">
-                <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293635/experience_a3fduk.png">
-                <h2>28+ Years of Travel Experience</h2>
-            </div>
-            <div class="service-item">
-                <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293634/feedback_s8z7d9.png">
-                <h2>98% Our Travelers are Happy</h2>
-            </div>
-        </section>
+       
+        <div id="output"></div>
+      
+        <script src="script.js"></script>
+    
+        
         <!--==============Places===================-->
+    <br>
         <section class="places">
             <div class="places-text">
-                <small>FEATURED TOURS PACKAGES</small>
+                <small>ECOTOURISM</small>
                 <h2>Favourite Places</h2>
             </div>
 
@@ -76,53 +58,29 @@
                     <div class="zoom-img">
                         <div class="img-card">
                             <img
-                                src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293736/james-wheeler_xqmq2y.jpg">
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Sea-lion-in-the-Galapagos-islands.jpg">
                         </div>
                     </div>
 
                     <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
+                        <h2>Galapagos Islands</h2>
                         <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Vancouver, Canada</p>
+                            <p class="location">✈ Ecuador</p>
                         </div>
                     </div>
-
                 </div>
                 <div class="card">
                     <div class="zoom-img">
                         <div class="img-card">
-                            <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293755/paris_uj8wum.jpg">
+                            <img
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Taranaki-Falls-Tongariro-National-Park-New-Zealand.jpg">
                         </div>
                     </div>
 
                     <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
+                        <h2>Tongariro National Park </h2>
                         <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Paris, France</p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card">
-                    <div class="zoom-img">
-                        <div class="img-card">
-                            <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293955/monaco_usu7xb.jpg">
-                        </div>
-                    </div>
-
-                    <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
-                        <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Monaco, Monaco</p>
+                            <p class="location">✈ New Zealand</p>
                         </div>
                     </div>
 
@@ -131,35 +89,14 @@
                     <div class="zoom-img">
                         <div class="img-card">
                             <img
-                                src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293874/switzerland_tubxcm.jpg">
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Borneo-orangutan.jpg">
                         </div>
                     </div>
 
                     <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
+                        <h2>Borneo</h2>
                         <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Bern, Switzerland</p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card">
-                    <div class="zoom-img">
-                        <div class="img-card">
-                            <img src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293673/korea_bxrcj5.jpg">
-                        </div>
-                    </div>
-
-                    <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
-                        <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Seoul, South Korea</p>
+                            <p class="location">✈ Malaysia</p>
                         </div>
                     </div>
 
@@ -168,19 +105,49 @@
                     <div class="zoom-img">
                         <div class="img-card">
                             <img
-                                src="https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293673/night-4336403_1920_demehp.jpg">
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Dug-out-canoes-in-Botswana-Africa.jpg">
                         </div>
                     </div>
 
                     <div class="text">
-                        <span class="rating">⭐⭐⭐⭐⭐</span>
-                        <h2>The Dark Forest Adventure</h2>
-                        <p class="cost">$1870 / Per Person</p>
+                        <h2>Okavango Delta</h2>
                         <div class="card-box">
-                            <p class="time">🕓 3 Days</p>
-                            <p class="location">✈ Tokyo, japan</p>
+                            <p class="location">✈ Botswana</p>
                         </div>
                     </div>
+
+                </div>
+                <div class="card">
+                    <div class="zoom-img">
+                        <div class="img-card">
+                            <img
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Diving-in-Palau.jpg">
+                        </div>
+                    </div>
+
+                    <div class="text">
+                        <h2>Palau National Marine Sanctuary</h2>
+                        <div class="card-box">
+                            <p class="location">✈ Palau</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="zoom-img">
+                        <div class="img-card">
+                            <img
+                                src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Wildebeest-in-Tanzania.jpg">
+                        </div>
+                    </div>
+
+                    <div class="text">
+                        <h2>Serengeti National Park </h2>
+                        <div class="card-box">
+                            <p class="location">✈ Tanzania</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
