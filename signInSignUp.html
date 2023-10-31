@@ -170,6 +170,7 @@
     const db= getDatabase(app);
     console.log(db)
     const users = ref(db, 'users');
+    const userProfile = ref(db,'userProfile')
     console.log(users)
     var usernameList = []
     var usernamePasswordList = []
@@ -222,6 +223,16 @@
                 this.passwordErr = true
             }
             else {
+              set(ref(db, 'userProfile/' + tempU), {
+              firstname: "",
+              surname: "",
+              mobilenum: "",
+              email: "",
+              country: "",
+              state: "",
+              places: "",
+              description: "",
+            });
                 update(users,{[tempU]:tempPass})
                 document.getElementById("signUpSuccessful").className = "d-inline col-md-10 mx-auto col-lg-5";
                 document.getElementById("signUpPage").className = "d-none col-md-10 mx-auto col-lg-5";
