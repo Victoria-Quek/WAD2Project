@@ -105,10 +105,10 @@
                 <div class="col-lg-4 col-sm-6">
                 <label for="tmode">Travel Mode</label>
                 <select class="form-select" id="tmode">
-                    <option value = "DRIVING">Drive</option>
-                    <option value = "BICYCLING" selected>Cycle</option>
-                    <option value = "TRANSIT">Transit</option>
-                    <option value = "WALKING">Walk</option>
+                    <option value = "DRIVING">Drive 🚗</option>
+                    <option value = "BICYCLING" selected>Cycle 🚲</option>
+                    <option value = "TRANSIT">Transit 💺</option>
+                    <option value = "WALKING">Walk 🚶</option>
                   </select>
                 </div>
                 <div class="col-lg-4 col-sm-6"><div id = "options"></div></div>
@@ -149,20 +149,20 @@
                 document.getElementById("options").innerHTML = 
                 `<label for="tOptions">Transit Options</label>
                 <select class="form-select" id="tOptions">
-                    <option value = "BUS">Bus</option>
-                    <option value = "RAIL">Rail</option>
-                    <option value = "SUBWAY">Subway</option>
-                    <option value = "TRAIN">Train</option>
-                    <option value = "TRAM">Tram</option>
+                    <option value = "BUS">Bus 🚌</option>
+                    <option value = "RAIL">Rail 🚈</option>
+                    <option value = "SUBWAY">Subway 🚇</option>
+                    <option value = "TRAIN">Train 🚄</option>
+                    <option value = "TRAM">Tram 🚋</option>
                   </select><br>`
             }
             else if (event.target.value == "DRIVING"){
                 document.getElementById("options").innerHTML = 
                 `<label for="cType">Car Type</label>
                 <select class="form-select" id="cType">
-                    <option value = "PETROL">Petrol</option>
-                    <option value = "ELECTRIC">Electric</option>
-                    <option value = "HYBRID">Hybrid</option>
+                    <option value = "PETROL">Petrol ⛽</option>
+                    <option value = "ELECTRIC">Electric ⚡</option>
+                    <option value = "HYBRID">Hybrid ⛽⚡</option>
             
                   </select><br>`
             }
