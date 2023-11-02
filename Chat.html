@@ -1,202 +1,193 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chat</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
-    
-  </head>
+    <title>Sustainable Chat</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-  <style>
-    /* Account name / other user the user is texting */
-    .header {
-      display: flex;
-      justify-content: center;
-      gap: 1em;
-      margin: 3em auto 1em;
-      max-width: 40em;
-      color: white
-    }
-
-    /* background */
-    body {
-      height: 90vh;
-      background-image: url(https://wallpapers.com/images/hd/telegram-cip-art-green-background-6z07z4i6i5p0dfrs.jpg);
-    }
-
-    /* Styling send button */
-    .button {
-      border: none;
-      padding: 0.625em;
-      border-radius: 0.5em;
-      cursor: pointer;
-    }
-
-    /* Shows that cursor is hovering over send button */
-    .button:hover {
-      filter: brightness(0.9);
-    }
-
-    /* Chat */
-    .chat-container {
-      background: #15202b;
-      font-family: 'Roboto', sans-serif;
-      border-radius: 0.5em;
-      padding: 0.5em 1.25em;
-      margin: auto;
-      max-width: 37.5em;
-      height: 40em;
-      box-shadow: 0 0 1.25em 0.5em #c3c3c333;
-    }
-
-    /* Chat messages */
-    .chat-messages {
-      height: 34em;
-      overflow-y: scroll;
-    }
-
-    .message {
-      padding: 0.625em;
-      border-radius: 1em;
-      margin-bottom: 0.625em;
-      display: flex;
-      flex-direction: column;
-      color: #fff;
-      background-color: #1c9bef;
-    }
-
-    .message-sender {
-      font-weight: bold;
-      margin-bottom: 0.31em;
-    }
-
-    .message-text {
-      font-size: 1em;
-      margin-bottom: 0.31em;
-      word-wrap: break-word;
-    }
-
-    .message-timestamp {
-      font-size: 0.75em;
-      text-align: right;
-    }
-
-    .chat-input-form {
-      display: flex;
-      align-items: center;
-      margin-top: 1.5em;
-      gap: 0.625em;
-    }
-
-    .chat-input {
-      padding: 0.625em;
-      border: none;
-      border-radius: 0.5em;
-      background-color: #f5f5f5;
-      color: #333;
-      font-size: 1em;
-      flex-grow: 1;
-    }
-
-    .send-button {
-      background-color: #1c9bef;
-      color: #fff;
-      font-size: 1em;
-      font-weight: bold;
-    }
-
-    .chat-messages::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Clear chat */
-    .clear-chat-button {
-      display: block;
-      margin: 2.5em auto;
-    }
-  </style>
-
-  <body>
-    <!-- The user you are texting to -->
-    <div class="header">
-      <h1>Pikachu</h1>
-    </div>
-
-    <div class="chat-container">
-
-      <div class="chat-messages">
-        
-      </div>
-
-      <form class="chat-input-form">
-        <input type="text" class="chat-input" required placeholder="Message" />
-        <button type="submit" class="button send-button">Send</button>
-      </form>
-      <!-- Clear chat button -->
-      <!-- <button class="button clear-chat-button">Clear</button> -->
-    </div>
-
-    <script>
-      const chatHeader = document.querySelector('.chat-header')
-      const chatMessages = document.querySelector('.chat-messages')
-      const chatInputForm = document.querySelector('.chat-input-form')
-      const chatInput = document.querySelector('.chat-input')
-      const messages = JSON.parse(localStorage.getItem('messages')) || []
-      
-      // To clear chat
-      // const clearChatBtn = document.querySelector('.clear-chat-button')
-
-      const createChatMessageElement = (message) => `
-        <div class="message">
-          <div class="message-sender">${message.sender}</div>
-          <div class="message-text">${message.text}</div>
-          <div class="message-timestamp">${message.timestamp}</div>
-        </div>
-      `
-
-      window.onload = () => {
-        messages.forEach((message) => {
-          chatMessages.innerHTML += createChatMessageElement(message)
-        })
-      }
-
-      let messageSender = 'John'
-
-      const sendMessage = (e) => {
-        e.preventDefault()
-
-        const timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-        const message = {
-          sender: messageSender,
-          text: chatInput.value,
-          timestamp,
+    <style>
+       /* Nav bar */
+       .nav-bar {
+            display: flex;
+            flex-flow: row wrap;
+            width: 100%;
+            height: 90px;
+            background-color: #fff;
+            box-shadow: 3px 3px 10px lightslategray;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
-        /* Save message to local storage */
-        messages.push(message)
-        localStorage.setItem('messages', JSON.stringify(messages))
+        .logo {
+            flex: 1;
+            font-size: 40px;
+            padding: 20px;
+            margin-left: 50px;
+            font-family: "Montserrat";
+        }
 
-        /* Add message to DOM */
-        chatMessages.innerHTML += createChatMessageElement(message)
+        ul.menu {
+            flex: 1;
+            display: flex;
+            flex-flow: row wrap;
+        }
 
-        /* Clear input field */
-        chatInputForm.reset()
+        .menu li {
+            flex: 1;
+            list-style-type: none;
+            font-size: 16px;
+            font-family: "Barlow Condensed";
+            text-align: center;
+        }
 
-        /*  Scroll to bottom of chat messages */
-        chatMessages.scrollTop = chatMessages.scrollHeight
-      }
+        .menu li a {
+            text-decoration: none;
+            color: #000;
+            text-transform: uppercase;
+        }
 
-  chatInputForm.addEventListener('submit', sendMessage)
-    
-  // Clear chat
-  // clearChatBtn.addEventListener('click', () => {
-  //     localStorage.clear()
-  //     chatMessages.innerHTML = ''
-  //   })
-  </script>
-  </body>
+        .menu li a:hover {
+            color: midnightblue;
+            text-decoration: underline;
+        }
+        
+        /* Account name / other user the user is texting */
+        .header {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            margin: 3em auto 1em;
+            max-width: 40em;
+            color: white
+        }
+
+        /* background */
+        body {
+            height: 110vh;
+            background-image: url(https://wallpapers.com/images/hd/telegram-cip-art-green-background-6z07z4i6i5p0dfrs.jpg);
+        }
+
+        #send-button {
+            border: none;
+            padding: 0.625em;
+            border-radius: 0.5em;
+            cursor: pointer;
+            background-color: #1c9bef;
+            color: #fff;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        #chat-container {
+            background: #15202b;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 0.5em;
+            padding: 0.5em 1.25em;
+            margin: auto;
+            max-width: 37.5em;
+            height: 40em;
+            box-shadow: 0 0 1.25em 0.5em #c3c3c333;
+        }
+
+        #chat-messages {
+            height: 34em;
+            overflow-y: scroll;
+        }
+
+        .chat-input-form {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5em;
+            gap: 0.625em;
+        }
+
+        #chat-input {
+            padding: 0.625em;
+            border: none;
+            border-radius: 0.5em;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 1em;
+            flex-grow: 1;
+        }
+        #output {
+            color: white;
+            font-size: 1.5em;
+            font-family: 'Roboto', sans-serif;
+            margin: 0.5em 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="nav-bar">
+        <div class="logo">EcoWanderers</div>
+        <ul class="menu">
+            <li><a href="#">Hotels</a></li>
+            <li><a href="Profile.html">Profile</a></li>
+        </ul>
+        </div>
+        </section>
+        <div class="header">
+            <h1>Sustainable Chatbot</h1>
+        </div>
+    <div id="chat-container">
+        <div id="chat-messages">
+            <div id="output"></div>
+
+        </div>
+<div class="chat-input-form">
+        <input type="text" id="chat-input" placeholder="Type a message...">
+        <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script>
+        const apiKey ='';
+
+
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input').value;
+const sendButton = document.getElementById('send-button');
+
+sendButton.addEventListener('click', function () {
+    const message = chatInput.value;
+    if (message) {
+        const messageElement = document.createElement('div');
+        messageElement.textContent = message;
+        chatMessages.appendChild(messageElement);
+        chatInput.value = '';
+    }
+});
+document.getElementById('send-button').addEventListener('click', generateResponse);
+
+function generateResponse() {
+    const chatInput = document.getElementById('chat-input').value;
+ 
+    const outputElement = document.getElementById('output');
+
+    const prompt = `${chatInput}`;
+
+    axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions',  {
+        prompt: prompt,
+        max_tokens: 1000,  
+     }, {
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    .then((response) => {
+        const itinerary = response.data.choices[0].text;
+        outputElement.innerText = itinerary;
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+
+}
+    </script>
+
+
+</body>
 </html>
