@@ -105,7 +105,7 @@
           <p v-if="usernameErr" style="color: red; font-weight: bold;">Username does not exist</p>
           <p v-if="passwordErr" style="color: red; font-weight: bold;">Wrong Password</p>
           <!-- Button -->
-          <button class="w-100 btn btn-lg btn-success mb-3" type="button" @click="check">Sign In</button>
+          <button class="w-100 btn btn-lg btn-success mb-3" type="button" @click="check">Login</button>
           <button class="w-100 btn btn-lg btn-success" type="button" @click="clear" onclick="backToPrev()">Back</button>
         </form>
       </div>
@@ -170,6 +170,7 @@
     const db= getDatabase(app);
     console.log(db)
     const users = ref(db, 'users');
+    const userProfile = ref(db,'userProfile')
     console.log(users)
     var usernameList = []
     var usernamePasswordList = []
@@ -222,6 +223,16 @@
                 this.passwordErr = true
             }
             else {
+              set(ref(db, 'userProfile/' + tempU), {
+              firstname: "",
+              surname: "",
+              mobilenum: "",
+              email: "",
+              country: "",
+              state: "",
+              places: "",
+              description: "",
+            });
                 update(users,{[tempU]:tempPass})
                 document.getElementById("signUpSuccessful").className = "d-inline col-md-10 mx-auto col-lg-5";
                 document.getElementById("signUpPage").className = "d-none col-md-10 mx-auto col-lg-5";
@@ -272,7 +283,7 @@
               }
               else {
                 sessionStorage.setItem("name", tempU);
-                window.location.href = "testIndex.html"
+                window.location.href = "wad2_index.html"
                 // add sessionStorage.getItem("name") in testIndex.html for name
             }
           }
@@ -293,6 +304,7 @@
   </script>
 
     </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
     
 </html>
