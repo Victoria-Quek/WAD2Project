@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="style.css" />
+
     <title>EcoWanderers</title>
 </head>
 
-<body>
 
     <body>
 
@@ -29,22 +29,23 @@
                 <div class="banner-heading">
                     <h1>Plan your next trip sustainably!</h1>
                 </div>
-                <form class="form">
+                <div class="input">
+                <!-- <form class="form"> -->
                     <input type="text" placeholder="Where would you like to go?" id="location">
                     <input type="text" class="date" placeholder="How many days?" id="days" name="days">
-                    <input type="text" class="budget" placeholder="Budget" id="budget" name="budget">
+                    <input type="text" class="budget" placeholder="Budget (USD)" id="budget" name="budget">
 
                     <button class="book" id="generateButton">Create</button>
-                </form>
+                </div>
+                <!-- </form> -->
             </div>
         </section>
 
        
-        <div id="output"></div>
+        <div id="output"><div class="o-text">Generate your sustainable itinerary!</div></div>
       
         <script src="script.js"></script>
-    
-        
+
         <!--==============Places===================-->
     <br>
         <section class="places">
@@ -59,7 +60,7 @@
                         <div class="img-card">
                             <img
                                 src="https://luxurycolumnist.com/wp-content/uploads/2023/04/Sea-lion-in-the-Galapagos-islands.jpg">
-                        </div>
+                            </div>
                     </div>
 
                     <div class="text">
