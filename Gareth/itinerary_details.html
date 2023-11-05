@@ -70,27 +70,29 @@
             <!--===============Banner================-->
             <section class="googleMap py-3">
                 <!-- POST TITLE -->
-                <h3 class="py-3">{{post_title}}</h3>
+                <h3 class="py-3 text-white">{{post_title}}</h3>
                 <!--The div element for the map -->
                 <div id="map" class="border border-3 border-warning"></div>
-                <!-- POST DESCRIPTION -->
-                <p class="py-1 my-1">{{post_description}}</p>
+                
                 <!-- POST TAGS -->
-                <p class="py-1 my-1">
-                    <span v-for="tag in post_tags" class="badge bg-success text-white m-1 ">
-                        # {{tag}},&nbsp;
+                <p class="py-1 my-3">
+                    <span v-for="tag in post_tags" class="badge bg-white text-success m-1 " style=" font-family: Roboto">
+                        # {{tag}}
                     </span>
                 </p>
+                <!-- POST DESCRIPTION -->
+                <p class=" my-5 w-75 me-auto ms-auto text-white" style=" font-family: Roboto">{{post_description}}</p>
             </section>
             <!--==============Places===================-->
             <section class="places">
 
-                <div class="cards pb-5 my-5">
-                    <div v-for="(key, index) in attractions" :key="`attraction-${index}`" class="card">
+                <div class="cards m-5">
+                    <div v-for="(key, index) in attractions" :key="`attraction-${index}`" class="card bg-warning w-100">
+                        
                         <div class="zoom-img">
                             <div class="img-card">
                                 <div :id="`carousel_itinerary_details-${index}`"
-                                    class="container carousel slide border ms-auto me-auto mt-3 mb-3"
+                                    class="container carousel slide  ms-auto me-auto mt-3 mb-3"
                                     data-bs-ride="carousel">
                                     <!-- Images area -->
                                     <div class="carousel-inner">
@@ -115,11 +117,14 @@
                             </div>
                         </div>
 
-                        <div class="text">
-                            <h2>{{ key.attraction_name }}</h2>
-                            <!-- <span class="rating">⭐⭐⭐⭐⭐</span> -->
-                            <small>{{ key.attraction_address }}</small>
-                        </div>
+                        
+                            <div class="text m-3">
+                                <h4 style=" font-family: Roboto">{{key.attraction_name }}</h4>
+                                <!-- <span class="rating">⭐⭐⭐⭐⭐</span> -->
+                            
+                                <span  style=" font-family: Roboto">{{ key.attraction_address }}</span>
+                            </div>
+                        
                     </div>
                 </div>
 
@@ -142,6 +147,8 @@
             const main_container = Vue.createApp({
                 data() {
                     return {
+                        myKey: "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0",//change here google api key
+
                         post_id: postData["id"],
                         post_username: postData["username"],
                         post_title: postData["title"],
@@ -149,14 +156,56 @@
                         post_tags: postData["tags"],
 
                         attractions: postData["attractions"]
+
+
                         // attractions:{0:{address:"", lat:"", lng:"", images:{} }} 
                     }
+                },
+                methods: {
+                    loadmap() {
+                        // Create googleapi script in head
+                        var myGoogleApiScript = document.createElement('script');
+                        myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + this.myKey);
+                        document.head.appendChild(myGoogleApiScript);
+                    },
+                    async initMap() {
+                        var neutral = new google.maps.LatLng(1.2973784, 103.8495219);
+                        // The map, centered at a neutral location
+                        var map = new google.maps.Map(
+                            document.getElementById('map'),
+                            {
+                                zoom: 12,
+                                center: neutral
+                            }
+                        );
+                        const bounds = new google.maps.LatLngBounds();
+                        for (key in this.attractions) {
+                            let attraction = this.attractions[key];
+                            console.log(attraction);
+                            let lng = parseFloat(attraction["lng"]);
+                            let lat = parseFloat(attraction["lat"]);
+                            let loc = {
+                                lat: lat,
+                                lng: lng
+                            };
+                            let marker = new google.maps.Marker({
+                                position: loc,
+                                map: map,
+                            });
+                            bounds.extend(loc);
+
+                        }
+                        map.fitBounds(bounds);
+                    }
+                }, mounted() {
+                    this.loadmap();
+                    window.initMap = this.initMap;
                 }
             }).mount('#main_container')
         </script>
 
         <!--=============== GOOGLE MAPS ================-->
-        <script>
+        <!-- <script>
             function initMap() {
                 // Default locations
                 // Korea
@@ -255,14 +304,14 @@
                 //     }
                 // });
             }
-        </script>
+        </script> -->
 
         <!--Load the API from the specified URL
         * The async attribute allows the browser to render the page while the API loads
         * The key parameter will contain your own API key 
         * The callback parameter executes the initMap() function
         -->
-        <script>
+        <!-- <script>
             // Google API Key.
             myKey = "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0"; // change here!!!
 
@@ -270,7 +319,7 @@
             var myGoogleApiScript = document.createElement('script');
             myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + myKey);
             document.head.appendChild(myGoogleApiScript);
-        </script>
+        </script> -->
 
         <!-- Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

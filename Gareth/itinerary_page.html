@@ -8,10 +8,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 
     <script type="module" src="script.js"></script>
@@ -20,78 +20,79 @@
 
     <link rel="stylesheet" href="style.css" />
     <title>Itinerary</title>
+    <style>
+        h2.card-title:hover,
+        div.card_username:hover {
+            cursor: pointer;
+            color: goldenrod;
+        }
+    </style>
 </head>
 
 <body>
 
 
 
-        <!--===========Nav Bar=================-->
-        <section class="nav-bar">
-            <div class="logo">EcoWanderers</div>
-            <ul class="menu">
-                <li><a href="wad2_index.html">Hotels</a></li>
-                <li><a href="itinerary_page.html">Itinerary</a></li>
-                <li><a href="#">Chats</a></li>
-                <li><a href="#">Profile</a></li>
-            </ul>
+    <!--===========Nav Bar=================-->
+    <section class="nav-bar">
+        <div class="logo">EcoWanderers</div>
+        <ul class="menu">
+            <li><a href="wad2_index.html">Hotels</a></li>
+            <li><a href="itinerary_page.html">Itinerary</a></li>
+            <li><a href="#">Chats</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+        </div>
+
+    </section>
+    <!--===============Banner================-->
+    <section class="banner">
+        <div class="banner-text-item">
+            <div class="banner-heading">
+                <h1>Discover the adventures that await you!</h1>
             </div>
+            <form class="form">
+                <input type="text" name="title" placeholder="Enter itinerary title" aria-label="Search by title">
+                <input type="text" name="username" placeholder="Search by user" aria-label="Search by username">
+                <input type="text" name="tags" placeholder="Search tags (e.g., beach, hiking, zero-waste)"
+                    aria-label="Search by tags">
+                <button class="btn" type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+    <!-- <div id="app"> -->
 
-        </section>
-        <!--===============Banner================-->
-        <section class="banner">
-            <div class="banner-text-item">
-                <div class="banner-heading">
-                    <h1>Explore the world sustainably!</h1>
-                </div>
-                <form class="form">
-                    <input type="text" class="form-control" list="mylist"  placeholder="Where would you like to go?">
-                    <datalist id="mylist">
-                        <option>London</option>
-                        <option>Canada</option>
-                        <option>Monaco</option>
-                        <option>France</option>
-                        <option>Japan</option>
-                        <option>Switzerland</option>
-                        <option>Seoul</option>
-                    </datalist>
-                    <!-- <input type="date" class="date"> -->
-                    <a href="#" class="book">Search</a>
-                </form>
+    <!--==============Places===================-->
+    <section class="places">
+        <div class="places-text mt-3 mt-lg-4 mt-xl-5">
+            <h2>Itinerary</h2>
+            <div class="container d-flex jusitiy-content-center col-5 col-lg-4 col-xxl-3">
+                <select class="form-control text-white text-center bg-success ">
+                    <option>Most Popular</option>
+                    <option>Most Recent</option>
+
+                </select>
             </div>
-        </section>
-        <!-- <div id="app"> -->
-        
-            <!--==============Places===================-->
-            <section class="places">
-                <div class="places-text mt-3 mt-lg-5">
-                    <h2>Itinerary</h2>
-                    <div class="container d-flex jusitiy-content-center col-3">
-                        <select class="form-control text-white text-center bg-success ">
-                            <option>Most Popular</option>
-                            <option>Most Recent</option>
-                            
-                        </select>
-                        </div>
-                </div>
+        </div>
 
-                <div id="post_iti" class="mb-5 mx-5">
-                    <div id="store_cards" class="cards">
+        <div id="post_iti" class="mb-5 mx-5">
+            <div id="store_cards" class="cards">
 
-                    </div>
-                </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-        <!-- </div> -->
+    <!-- </div> -->
 
 </html>
 
 <script>
+    var posts = [];
     window.onload = getData;
-    function getData(){
+    function getData() {
         console.log("hello")
         const db = firebase.firestore();
-        var posts = [];
+        // var posts = [];
         db.collection("itinerary_posts").get().then((querySnapshot) => {
             // var posts = [];
             querySnapshot.forEach(doc => {
@@ -99,11 +100,11 @@
             });
             console.log(posts);
             createItineraryPosts(posts);
-    });
-    }    
-    function createItineraryPosts(posts){
+        });
+    }
+    function createItineraryPosts(posts) {
 
-        for(post of posts){
+        for (post of posts) {
             console.log(post);
             let id = post.id;
             let username = post.username;
@@ -111,7 +112,7 @@
             let description = post.description;
             let tags = post.tags;
             let attractions = post.attractions;
-            console.log("attractions: ",attractions);
+            console.log("attractions: ", attractions);
 
             let post_iti = document.getElementById("post_iti");
             let store_cards = document.getElementById("store_cards");
@@ -126,33 +127,39 @@
 
             let card_title = document.createElement("h2");
             card_title.setAttribute("class", "card-title");
-            card_title.setAttribute("style", "font-family: Barlow Condensed; line-height: 50px;")
+            card_title.setAttribute("style", "font-family:Roboto")
             // card_title.setAttribute("onclick", "iti_details(event)")
             card_title.innerHTML = title;
-            card_title.onclick = function(event) {
+            card_title.onclick = function (event) {
                 iti_details(event, posts);
             };
 
             let card_text = document.createElement("p");
             card_text.setAttribute("class", "card-text");
-            
-            for (tag of tags){
+
+            for (tag of tags) {
                 let tag_span = document.createElement("span");
                 tag_span.setAttribute("class", "badge bg-success text-white m-1");
-                tag_span.innerHTML = "# "+tag;
+                tag_span.setAttribute("style", "font-family: Roboto;")
+                tag_span.innerHTML = "# " + tag;
                 card_text.appendChild(tag_span);
             }
 
+            let card_username = document.createElement("div");
+            card_username.setAttribute("class", "card_username card-text mt-3");
+            card_username.setAttribute("style", "font-family: Barlow ;")
+            card_username.innerHTML = username;
+
             let card_zoom = document.createElement("div");
             card_zoom.setAttribute("class", "zoom_img");
-            
+
 
             let card_img = document.createElement("div");
             card_img.setAttribute("class", "img-card");
 
             let carousel_display = document.createElement("div");
-            carousel_display.setAttribute("id", "carousel_display"+id);
-            carousel_display.setAttribute("class", "container carousel slide border ms-auto me-auto mt-3 mb-3 border-0");
+            carousel_display.setAttribute("id", "carousel_display" + id);
+            carousel_display.setAttribute("class", "container carousel slide  ms-auto me-auto mt-3 mb-3 border-0");
             carousel_display.setAttribute("data-bs-ride", "carousel");
 
             let carousel_inner = document.createElement("div");
@@ -162,15 +169,15 @@
             // var test = attractions[0];
             // console.log("attractions[0]key: ",Object.keys(test));
             // console.log("attractions[0]key: ",test["images"]);
-            for (key in attractions){
+            for (key in attractions) {
                 // console.log("attraction: ",attraction);
                 let attraction = attractions[key];
 
 
-                for(image of attraction.images){   
+                for (image of attraction.images) {
                     let carousel_item = document.createElement("div");
                     carousel_item.setAttribute("class", "carousel-item");
-                    if (image == attractions[0]['images'][0]){
+                    if (image == attractions[0]['images'][0]) {
                         carousel_item.setAttribute("class", "carousel-item active");
                     }
                     let carousel_img = document.createElement("img");
@@ -185,7 +192,7 @@
             let carousel_control_prev = document.createElement("button");
             carousel_control_prev.setAttribute("class", "carousel-control-prev");
             carousel_control_prev.setAttribute("type", "button");
-            carousel_control_prev.setAttribute("data-bs-target", "#carousel_display"+id);
+            carousel_control_prev.setAttribute("data-bs-target", "#carousel_display" + id);
             carousel_control_prev.setAttribute("data-bs-slide", "prev");
 
             let carousel_control_prev_span = document.createElement("span");
@@ -201,7 +208,7 @@
             let carousel_control_next = document.createElement("button");
             carousel_control_next.setAttribute("class", "carousel-control-next");
             carousel_control_next.setAttribute("type", "button");
-            carousel_control_next.setAttribute("data-bs-target", "#carousel_display"+id);
+            carousel_control_next.setAttribute("data-bs-target", "#carousel_display" + id);
             carousel_control_next.setAttribute("data-bs-slide", "next");
 
             let carousel_control_next_span = document.createElement("span");
@@ -227,6 +234,7 @@
 
             // card_body.appendChild(card_title);
             card_body.appendChild(card_text);
+            card.appendChild(card_username);
             card.appendChild(card_zoom);
             card.appendChild(card_title);
             card.appendChild(card_body);
@@ -235,19 +243,23 @@
 
         }
     }
-    
-    
-    function iti_details(event, posts){
+
+    function filterPosts() {
+
+
+    }
+
+    function iti_details(event, posts) {
         var title_ele = event.target;
         var card_ele = title_ele.parentElement
-        
-        console.log("card_ele: ",card_ele);
-        var id = card_ele.id;
-        console.log("id: ",id);
 
-        for (post of posts){
-            if (post.id == id){
-                console.log("post: ",post);
+        console.log("card_ele: ", card_ele);
+        var id = card_ele.id;
+        console.log("id: ", id);
+
+        for (post of posts) {
+            if (post.id == id) {
+                console.log("post: ", post);
                 localStorage.setItem("post", JSON.stringify(post));
             }
         }
