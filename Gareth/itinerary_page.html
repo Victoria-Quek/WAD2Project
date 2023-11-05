@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+
+    <script type="module" src="script.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Itinerary</title>
+</head>
+
+<body>
+
+
+
+        <!--===========Nav Bar=================-->
+        <section class="nav-bar">
+            <div class="logo">EcoWanderers</div>
+            <ul class="menu">
+                <li><a href="wad2_index.html">Hotels</a></li>
+                <li><a href="itinerary_page.html">Itinerary</a></li>
+                <li><a href="#">Chats</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            </div>
+
+        </section>
+        <!--===============Banner================-->
+        <section class="banner">
+            <div class="banner-text-item">
+                <div class="banner-heading">
+                    <h1>Explore the world sustainably!</h1>
+                </div>
+                <form class="form">
+                    <input type="text" class="form-control" list="mylist"  placeholder="Where would you like to go?">
+                    <datalist id="mylist">
+                        <option>London</option>
+                        <option>Canada</option>
+                        <option>Monaco</option>
+                        <option>France</option>
+                        <option>Japan</option>
+                        <option>Switzerland</option>
+                        <option>Seoul</option>
+                    </datalist>
+                    <!-- <input type="date" class="date"> -->
+                    <a href="#" class="book">Search</a>
+                </form>
+            </div>
+        </section>
+        <!-- <div id="app"> -->
+        
+            <!--==============Places===================-->
+            <section class="places">
+                <div class="places-text mt-3 mt-lg-5">
+                    <h2>Itinerary</h2>
+                    <div class="container d-flex jusitiy-content-center col-3">
+                        <select class="form-control text-white text-center bg-success ">
+                            <option>Most Popular</option>
+                            <option>Most Recent</option>
+                            
+                        </select>
+                        </div>
+                </div>
+
+                <div id="post_iti" class="mb-5 mx-5">
+                    <div id="store_cards" class="cards">
+
+                    </div>
+                </div>
+            </section>
+
+        <!-- </div> -->
+
+</html>
+
+<script>
+    window.onload = getData;
+    function getData(){
+        console.log("hello")
+        const db = firebase.firestore();
+        var posts = [];
+        db.collection("itinerary_posts").get().then((querySnapshot) => {
+            // var posts = [];
+            querySnapshot.forEach(doc => {
+                posts.push({ id: doc.id, ...doc.data() })
+            });
+            console.log(posts);
+            createItineraryPosts(posts);
+    });
+    }    
+    function createItineraryPosts(posts){
+
+        for(post of posts){
+            console.log(post);
+            let id = post.id;
+            let username = post.username;
+            let title = post.title;
+            let description = post.description;
+            let tags = post.tags;
+            let attractions = post.attractions;
+            console.log("attractions: ",attractions);
+
+            let post_iti = document.getElementById("post_iti");
+            let store_cards = document.getElementById("store_cards");
+
+            let card = document.createElement("div");
+            card.setAttribute("class", "card");
+            card.setAttribute("style", "width: 100%;");
+            card.setAttribute("id", id);
+
+            let card_body = document.createElement("div");
+            card_body.setAttribute("class", "card-body h-100 w-100 overflow-auto");
+
+            let card_title = document.createElement("h2");
+            card_title.setAttribute("class", "card-title");
+            card_title.setAttribute("style", "font-family: Barlow Condensed; line-height: 50px;")
+            // card_title.setAttribute("onclick", "iti_details(event)")
+            card_title.innerHTML = title;
+            card_title.onclick = function(event) {
+                iti_details(event, posts);
+            };
+
+            let card_text = document.createElement("p");
+            card_text.setAttribute("class", "card-text");
+            
+            for (tag of tags){
+                let tag_span = document.createElement("span");
+                tag_span.setAttribute("class", "badge bg-success text-white m-1");
+                tag_span.innerHTML = "# "+tag;
+                card_text.appendChild(tag_span);
+            }
+
+            let card_zoom = document.createElement("div");
+            card_zoom.setAttribute("class", "zoom_img");
+            
+
+            let card_img = document.createElement("div");
+            card_img.setAttribute("class", "img-card");
+
+            let carousel_display = document.createElement("div");
+            carousel_display.setAttribute("id", "carousel_display"+id);
+            carousel_display.setAttribute("class", "container carousel slide border ms-auto me-auto mt-3 mb-3 border-0");
+            carousel_display.setAttribute("data-bs-ride", "carousel");
+
+            let carousel_inner = document.createElement("div");
+            carousel_inner.setAttribute("class", "carousel-inner");
+            // console.log("attractions: ",attractions);
+            // console.log("attractions[0]: ",attractions[0]);
+            // var test = attractions[0];
+            // console.log("attractions[0]key: ",Object.keys(test));
+            // console.log("attractions[0]key: ",test["images"]);
+            for (key in attractions){
+                // console.log("attraction: ",attraction);
+                let attraction = attractions[key];
+
+
+                for(image of attraction.images){   
+                    let carousel_item = document.createElement("div");
+                    carousel_item.setAttribute("class", "carousel-item");
+                    if (image == attractions[0]['images'][0]){
+                        carousel_item.setAttribute("class", "carousel-item active");
+                    }
+                    let carousel_img = document.createElement("img");
+                    carousel_img.setAttribute("src", image);
+                    carousel_img.setAttribute("class", "d-block w-100");
+                    carousel_img.setAttribute("alt", "...");
+                    carousel_item.appendChild(carousel_img);
+                    carousel_inner.appendChild(carousel_item);
+                }
+            }
+
+            let carousel_control_prev = document.createElement("button");
+            carousel_control_prev.setAttribute("class", "carousel-control-prev");
+            carousel_control_prev.setAttribute("type", "button");
+            carousel_control_prev.setAttribute("data-bs-target", "#carousel_display"+id);
+            carousel_control_prev.setAttribute("data-bs-slide", "prev");
+
+            let carousel_control_prev_span = document.createElement("span");
+            carousel_control_prev_span.setAttribute("class", "carousel-control-prev-icon");
+            carousel_control_prev_span.setAttribute("aria-hidden", "true");
+            carousel_control_prev.appendChild(carousel_control_prev_span);
+
+            let carousel_control_prev_span2 = document.createElement("span");
+            carousel_control_prev_span2.setAttribute("class", "visually-hidden");
+            carousel_control_prev_span2.innerHTML = "Previous";
+            carousel_control_prev.appendChild(carousel_control_prev_span2);
+
+            let carousel_control_next = document.createElement("button");
+            carousel_control_next.setAttribute("class", "carousel-control-next");
+            carousel_control_next.setAttribute("type", "button");
+            carousel_control_next.setAttribute("data-bs-target", "#carousel_display"+id);
+            carousel_control_next.setAttribute("data-bs-slide", "next");
+
+            let carousel_control_next_span = document.createElement("span");
+            carousel_control_next_span.setAttribute("class", "carousel-control-next-icon");
+            carousel_control_next_span.setAttribute("aria-hidden", "true");
+            carousel_control_next.appendChild(carousel_control_next_span);
+
+            let carousel_control_next_span2 = document.createElement("span");
+            carousel_control_next_span2.setAttribute("class", "visually-hidden");
+            carousel_control_next_span2.innerHTML = "Next";
+            carousel_control_next.appendChild(carousel_control_next_span2);
+
+            carousel_display.appendChild(carousel_inner);
+            carousel_display.appendChild(carousel_control_prev);
+            carousel_display.appendChild(carousel_control_next);
+
+            card_img.appendChild(carousel_display);
+
+            card_zoom.appendChild(card_img);
+
+
+
+
+            // card_body.appendChild(card_title);
+            card_body.appendChild(card_text);
+            card.appendChild(card_zoom);
+            card.appendChild(card_title);
+            card.appendChild(card_body);
+            // post_iti.appendChild(card);
+            store_cards.appendChild(card);
+
+        }
+    }
+    
+    
+    function iti_details(event, posts){
+        var title_ele = event.target;
+        var card_ele = title_ele.parentElement
+        
+        console.log("card_ele: ",card_ele);
+        var id = card_ele.id;
+        console.log("id: ",id);
+
+        for (post of posts){
+            if (post.id == id){
+                console.log("post: ",post);
+                localStorage.setItem("post", JSON.stringify(post));
+            }
+        }
+
+
+
+        window.location.href = "itinerary_details.html"
+    }
+
+</script>
+
+</body>
+
+
+</html>

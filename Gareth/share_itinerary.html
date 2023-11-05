@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    
+
+    <!-- Your Firebase configuration script -->
+    <!-- <script type="module" src="testingfb.js"></script> -->
+
+    <script type="module" src="script.js"></script>
+
+
+    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style copy.css" /> -->
+    <title>Itinerary</title>
+    <style>
+        #map {
+            height: 400px;
+            /* The height is 400 pixels */
+            width: 90%;
+            /* The width is the width of the web page */
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.3);
+
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-image: url(https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2017/11/travel-photography-tips-photojaanic-7.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        hr {
+            height: 20px;
+        }
+
+        .tag {
+            border: 3px solid white;
+
+            padding: 5px;
+            margin-right: 10px;
+            width: auto;
+            max-width: 100%;
+        }
+
+        #tags {
+            text-align: center;
+            margin-top: 5px;
+            color: white;
+        }
+
+        input,
+        textarea,
+        .input-group-text {
+            box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        #create_post {
+            font-size: 1.5vw;
+        }
+
+        .form-label {
+            color: white;
+
+        }
+
+        .hidden-input {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <body>
+
+        <!--===========Nav Bar=================-->
+        <section class="nav-bar">
+            <div class="logo">EcoWanderers</div>
+            <ul class="menu">
+                <li><a href="wad2_index.html">Hotels</a></li>
+                <li><a href="itinerary_page.html">Itinerary</a></li>
+                <li><a href="#">Chats</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            </div>
+
+        </section>
+        <form id="create_post" @submit.prevent="onSubmit">
+            <!--===============Create================-->
+            <section>
+                <div id="app" class="container-fluid rounded-4 w-75 my-5"
+                    style="background-color: rgba(95, 168, 95, 0.95);">
+                    <div class=" d-flex pt-5 ps-5 pe-5 mb-3">
+                        <span id="for_back" class="col d-flex justify-content-start">
+
+                            <button @click="onBack()" type="button" class=" d-none btn  btn-warning text-dark"
+                                id="back_page1">Back</button>
+                            <button @click="onBack()" type="button" class=" d-none btn  btn-warning text-dark"
+                                id="back_page2">Back</button>
+                        </span>
+                        <h2 class="heading text-center col text-white">Create a Post</h2>
+                        <!--=================== Next ======================== -->
+
+                        <span id="for_next" class="col d-flex justify-content-end">
+                            <button @click="onNext_Page()" type="button" class="d-inline btn btn-warning text-dark"
+                                id="page1_next">Next</button>
+                            <button @click="onSubmit()" type="button" class="d-none btn btn-warning text-dark"
+                                id="post">Post</button>
+
+                        </span>
+                    </div>
+
+                    
+
+                    <!--=================== Page 1======================== -->
+                    <div id="page1" class="d-inline">
+                        <!--=================== NAME======================== -->
+                        <div class="mb-3 ms-auto me-auto" style="width: 90%;">
+                            <label for="post_title" class="form-label">Title<span class="text-danger">*&nbsp;
+                                    &nbsp;</span>
+                                <span :class="{'text-white bg-danger rounded-2 p-1': error_post_title}"
+                                    style="font-size:70%;">{{error_post_title}}</span>
+                            </label>
+                            <input v-model="post_title" type="text" class="form-control" id="post_title">
+                        </div>
+                        <!--=================== Description======================== -->
+                        <div class="mb-3 ms-auto me-auto" style="width: 90%;">
+                            <label for="post_description" class="form-label">Description<span
+                                    class="text-danger">*&nbsp; &nbsp;</span>
+                                <span :class="{'text-white bg-danger rounded-2 p-1': error_post_description}"
+                                    style="font-size:70%;">{{error_post_description}}</span>
+                            </label>
+                            <textarea v-model="post_description" type="text" class="form-control" id="post_description"
+                                style="height: 100px;"></textarea>
+                        </div>
+                        <!--=================== Tags======================== -->
+                        <div class="mb-3 ms-auto me-auto" style="width: 90%;">
+                            <label for="post_tags" class="form-label">Tag(s)</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">#</span>
+                                <input v-model="tag" @keypress="addtag(tag)" id="post_tags" type="text"
+                                    class="form-control" placeholder="Hit [Enter] to create a tag">
+
+                            </div>
+                        </div>
+
+                        <div class='row pb-5 mb-5 ms-auto me-auto' style="width: 90%;" id="tags">
+                            <span v-for="(tag,idv) in post_tags" class="col-1 tag bg-white text-dark rounded-4 mb-3">
+                                #{{tag}}<span @click="toDelete(idv)"
+                                    style="font-size: 60%; cursor: pointer;">&nbsp;❌</span>
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!--=================== Attractions' Location & Image======================== -->
+                    <div id="attraction_page" class="d-none">
+                        <div id="attraction_section">
+
+                            <div id="map" class="border border-3 border-warning mb-3"></div>
+                            <div id="attraction_index0">
+                                <!--=================== Location ======================== -->
+                                <div class=" ms-auto me-auto" style="width: 90%;">
+                                    <div class="d-flex ">
+                                        <label for="attraction_location0" class=" col-12 form-label ">Attraction
+                                            Name<span class="text-danger">*&nbsp; &nbsp;</span>
+                                            <span style="font-size:70%;" id="loc_err0"></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="attraction_location0"
+                                            placeholder="Click on [Check] to check Attraction's Location">
+
+                                        <button type="button" onclick="getLoc(0)"
+                                            class="btn btn-warning z-0">Check</button>
+                                        <!-- store loc, how to show all properly -->
+
+                                    </div>
+                                    <div class="d-flex mt-1">
+                                        <label for="attraction_Address0" class=" col-12 form-label ">Attraction Address </label>
+                                    </div>
+
+                                    <div class="">
+                                        <input type="text" class="form-control" id="attraction_Address0"
+                                            placeholder="Attraction's Address by Google Maps" disabled
+                                            readonly>
+                                    </div>
+                                    <!-- the following set the lat, lng values to put a marker on the map-->
+                                    <input type="hidden" id="lat0" name="lat0" value="1.2973784" />
+                                    <!-- default = SCIS's location -->
+                                    <input type="hidden" id="lng0" name="lng0" value="103.8495219" />
+
+                                </div>
+
+                                <!-- ===================== Image ======================== -->
+                                <div class="mb-3 ms-auto me-auto mt-1" style="width: 90%;">
+                                    <label for="attraction_image0" class="form-label">Attraction Image<span
+                                            class="text-danger">*&nbsp; &nbsp;</span>
+                                        <span style="font-size:70%;" id="image_err0"></span>
+
+                                    </label>
+
+                                    <div class="input-group " style="width: 100%;">
+                                        <button type="button" class="btn btn-secondary z-0"
+                                            onclick="document.getElementById('attraction_image0').click();">Choose
+                                            File</button>
+                                        <input type="file" class="form-control hidden-input" id="attraction_image0"
+                                            accept="image/*" multiple="multiple">
+                                        <input class="form-control h-100 p-2" type="text" id="file_display0" placeholder="No file chosen " disabled
+                                            readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <!--=================== Buttons ======================== -->
+                        <div class="d-flex justify-content-between px-5 pb-5 mt-5 mb-5" style="width: 100%;">
+                            <!-- =================== ADD ======================== -->
+                            <button @click="addAttraction" type="button" class="btn  btn-warning text-dark m-2"
+                                id="add_location">Add Attraction</button>
+                            
+                            <!-- =================== Preview Button ======================== -->
+                            <button @click="previewGenerator" type="button" class="btn  btn-warning text-dark m-2"
+                                id="preview_button">Show Preview</button>
+                        </div>
+                    </div>
+
+                    <!--=================== Preview ======================== -->
+                    <div id="preview_section" class="d-none ">
+                        <div id="store_cards" class="cards pb-5">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </section>
+        </form>
+        <!--=============== VUE ================-->
+        <script>
+
+            const app = Vue.createApp({
+                data() {
+                    return {
+
+                        // main data
+                        post_title: '',
+                        post_description: '',
+                        post_tags: [],
+
+                        attraction_count: 0,
+                        stored_images: {},
+                        stored_attractions: {},
+                        
+
+                        //checks
+                        isProgrammaticChange: false,
+                        check_page2: false,
+
+
+
+                        tag: '',
+                        error_post_title: '',
+                        error_post_description: '',
+
+
+                        final_obj: { username:"" ,title: "", description: "", tags: [], attractions: {} }
+                    }
+                },
+                methods: {
+                    onNext_Page() {
+                        this.error_post_title = '';
+                        this.error_post_description = '';
+
+                        // [page1_next] is clicked
+                        if (document.getElementById("page1").className == "d-inline") {
+                            // check input for Title and Description
+                            if (this.post_title.trim() == '') {
+                                this.error_post_title = "Please enter post title"
+                            }
+                            if (this.post_description.trim() == '') {
+                                this.error_post_description = "Please enter post description"
+                            }
+
+                            // console.log(this.post_tags);
+
+                            // if have title and description, proceed to next page
+                            if (this.post_title != '' && this.post_description != '') {
+
+                                // console.log(this.post_tags);
+                                // change from page 1 to page 2
+                                document.getElementById("page1").className = "d-none";
+                                document.getElementById("attraction_page").className = "d-inline";
+                                // apply back button
+                                document.getElementById("back_page1").className = "d-inline btn  btn-warning text-dark";
+                                // change next button 
+                                document.getElementById("page1_next").className = "d-none btn  btn-warning text-dark";
+                                // document.getElementById("page2_next").className = "d-inline btn  btn-warning text-dark";
+
+                                //  event listener for the attraction0
+                                document.getElementById("attraction_image0").addEventListener('change', (event) => {
+                                    this.onFileChange(event, 0);
+                                });
+                                document.getElementById("attraction_location0").addEventListener('input', (event) => {
+                                    this.onlocInputChange(event, 0);
+                                });
+                                document.getElementById('attraction_image0').addEventListener('change', function () {
+                                    // console.log(this.files.length);
+                                    if (this.files.length > 0) {
+                                        document.getElementById('file_display0').placeholder = `${this.files.length} file(s) selected.`;
+                                    }
+
+                                });
+
+                            }
+                        }
+
+                        // [page2_next] is clicked
+                        // if(document.getElementById("attraction_page").className == "d-inline" ){}
+
+
+                    },
+                    onBack() {
+                        // console.log("back");
+                        // [back_page1] is clicked
+                        if (document.getElementById("attraction_page").className == "d-inline") {
+                            // change from page 2 to page 1
+                            document.getElementById("page1").className = "d-inline";
+                            document.getElementById("attraction_page").className = "d-none";
+                            // remove back button
+                            document.getElementById("back_page1").className = "d-none btn  btn-warning text-dark";
+                            // change next button
+                            document.getElementById("page1_next").className = "d-inline btn  btn-warning text-dark";
+                            // document.getElementById("page2_next").className = "d-none btn  btn-warning text-dark";
+                        }
+
+                        // [back_page2] is clicked
+                        if (document.getElementById("preview_section").className == "d-inline") {
+                            //change from page 3 to page 2
+                            document.getElementById("attraction_page").className = "d-inline";
+                            document.getElementById("preview_section").className = "d-none";
+
+                            //change back button
+                            document.getElementById("back_page2").className = "d-none btn  btn-warning text-dark";
+                            document.getElementById("back_page1").className = "d-inline btn  btn-warning text-dark";
+
+                            //change next button
+                            document.getElementById("post").className = "d-none btn  btn-warning text-dark";
+                            // document.getElementById("page2_next").className = "d-inline btn  btn-warning text-dark";
+
+
+                        }
+                    },
+
+                    deleteAttraction(event, idx) {
+                        var i = idx;
+                        delete this.stored_images[i];
+
+
+                        var element = document.getElementById("attraction_index" + i);
+                        if (element) {
+                            element.remove();
+                        }
+
+                    },
+
+                    onFileChange(event, idx) {
+                        // this.error_attraction_image=''
+                        var selectedFiles = event.target.files;
+                        var i = idx;
+                        // console.log("ENters onFileChange");
+                        // console.log("changes made to input:",i);
+                        // console.log("attraction count:"+ this.attraction_count);
+
+                        if (selectedFiles.length > 0) {
+
+                            this.stored_images[i] = selectedFiles;
+                            // console.log("There is images to be stored");
+                            // console.log((this.stored_images[i]).length, "images stored",i);
+                            // console.log(this.stored_images);
+                            // console.log("clearing error msg for: image_err"+i);
+                            document.getElementById("image_err" + i).innerText = '';
+                            document.getElementById("image_err" + i).className = "";
+
+                        }
+
+
+                    },
+                    onlocInputChange(event, idx) {
+                        var i = idx;
+                        // console.log("changes made to loc input:",i);
+                        // console.log("attraction count:"+ this.attraction_count);
+                        document.getElementById("attraction_Address" + i).setAttribute('value', "");
+                        document.getElementById("loc_err" + i).innerText = "Please [Check] attraction's location";
+                        document.getElementById("loc_err" + i).className = " text-white bg-danger rounded-2 p-1";
+
+                    },
+
+                    previewGenerator() {
+                        //////////////////////////////////////////////////////////////
+                        // need alot of checks
+                        var x = this.attraction_count;
+                        this.check_page2 = true;
+                        // if all are not empty, add attraction section
+                        for (let i = 0; i <= x; i++) {
+                            // console.log("checking :"+i);
+
+
+                            if (document.getElementById("attraction_index" + i)) {
+                                // where to store/adjust the error msg
+                                var loc_err_msg = document.getElementById("loc_err" + i);
+                                var image_msg = document.getElementById("image_err" + i);
+                                // pull data to be checked
+                                var fileList = this.stored_images[i]
+                                var checked_loc = document.getElementById("attraction_location" + i).getAttribute('value');
+                                var input_loc = document.getElementById("attraction_location" + i).value;
+                                //checks if the input location is empty
+                                if ((input_loc.trim()).length == 0) {
+                                    loc_err_msg.innerText = "Please enter attraction's location"
+                                    loc_err_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("error msg for: loc_err"+i);
+                                }
+                                //checks if the location is checked
+                                else if (checked_loc == null || (checked_loc.trim()).length == 0) {
+                                    loc_err_msg.innerText = "Please [Check] attraction's location"
+                                    loc_err_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("error msg for: loc_err"+i);
+                                } else {
+                                    loc_err_msg.innerText = ''
+                                    loc_err_msg.className = "";
+                                }
+                                //checks if the image is empty
+                                if (fileList == null || fileList.length == 0 || fileList == undefined) {
+                                    image_msg.innerText = 'Please upload an image';
+                                    image_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("add error msg for: image_err"+i);
+                                } else {
+                                    image_msg.innerText = '';
+                                    image_msg.className = "";
+                                }
+                            }
+                        }
+                        if (this.check_page2) {
+                            document.getElementById("post").className = "d-inline btn  btn-warning text-dark";
+                            document.getElementById("attraction_page").className = "d-none";
+                            document.getElementById("preview_section").className = 'd-inline';
+                            // reset the preview section to empty incase of changes
+                            document.getElementById("store_cards").innerHTML = ``;
+
+                            var numof_Attr = this.attraction_count;
+                            // console.log("number of attractions: "+numof_Attr);
+
+
+                            for (let x = 0; x <= numof_Attr; x++) {
+                                if (document.getElementById("attraction_index" + x)) {
+                                    // console.log("index of attr:"+x);
+                                    var name = (document.getElementById("attraction_location" + x).getAttribute('value')).trim();
+                                    var address = document.getElementById("attraction_Address" + x).value;
+
+                                    document.getElementById("store_cards").innerHTML +=
+                                        `<div id="card${x}" class="card">
+                                            <div class="zoom-img">
+                                                <div class="img-card">
+                                    
+                                                    <div id="carousel_preview${x}" class=" container carousel slide border ms-auto me-auto mt-3 mb-3 " data-bs-ride="carousel">
+
+                                                        <div id="image_section${x}" class="carousel-inner">
+                                                            
+                                                        </div>
+
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel_preview${x}"
+                                                            data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel_preview${x}"
+                                                            data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text">
+                                                
+                                                
+                                                <h2 id="location review">${name}</h2>
+                                                <p></p>
+                                                <small id="address review">${address}</small>
+                                            </div>
+                                        </div>`
+
+
+                                    this.generateCarousel(x);
+
+                                }
+                            }
+                        }
+                    },
+                    generateCarousel(x) {
+                        // console.log("Generating carousel for:", x);
+
+                        var idx = x;
+                        var files = this.stored_images[idx];
+                        var image_section = document.getElementById("image_section" + idx);
+
+                        // console.log("image_section:", idx);
+                        // console.log("file length:", files.length);
+                        console.log("files:", files);
+                        for (var i = 0; i < files.length; i++) {
+
+                            var file = files[i];
+                            console.log("i:", i);
+                            console.log("file:", file);
+                            var imageUrl = URL.createObjectURL(file); // This creates a URL for the file
+                            console.log("imageUrl:", imageUrl);
+                            var image = new Image();
+                            image.src = imageUrl;
+                            image.className = "d-block ";
+                            image.style = "width:100%;";
+
+                            var image_item = document.createElement('div');
+                            image_item.className = "carousel-item";
+
+                            // Add "active" class to the first image item
+                            if (i === 0) {
+                                image_item.classList.add('active');
+                            }
+
+                            image_item.appendChild(image);
+                            image_section.appendChild(image_item);
+                        }
+                    },
+
+                    addtag() {
+                        if (event.key === "Enter") {
+                            if ((this.tag.trim()).length != 0) {
+
+                                if (this.post_tags.includes(this.tag)) {
+                                    alert('Tag already exists');
+                                } else {
+                                    // console.log(this.tag);
+                                    this.post_tags.push(this.tag.trim());
+                                    this.tag = '';
+                                }
+                            }
+                        }
+                    },
+                    toDelete(idv) {
+                        this.post_tags.splice(idv, 1);
+                    },
+
+                    // DUPLICATE ATTRACTION SECTION
+                    addAttraction() {
+
+                        var x = this.attraction_count;
+                        this.check_page2 = true;
+                        // if all are not empty, add attraction section
+                        for (let i = 0; i <= x; i++) {
+                            // console.log("checking :"+i);
+
+
+                            if (document.getElementById("attraction_index" + i)) {
+                                // where to store/adjust the error msg
+                                var loc_err_msg = document.getElementById("loc_err" + i);
+                                var image_msg = document.getElementById("image_err" + i);
+                                // pull data to be checked
+                                var fileList = this.stored_images[i];
+                                // console.log("fileList:", fileList);
+                                var checked_loc = document.getElementById("attraction_location" + i).getAttribute('value');
+                                var input_loc = document.getElementById("attraction_location" + i).value;
+                                //checks if the input location is empty
+                                if ((input_loc.trim()).length == 0) {
+                                    loc_err_msg.innerText = "Please enter attraction's location"
+                                    loc_err_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("error msg for: loc_err"+i);
+                                }
+                                //checks if the location is checked
+                                else if (checked_loc == null || (checked_loc.trim()).length == 0) {
+                                    loc_err_msg.innerText = "Please [Check] attraction's location"
+                                    loc_err_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("error msg for: loc_err"+i);
+                                } else {
+                                    loc_err_msg.innerText = '';
+                                    loc_err_msg.className = "";
+                                }
+                                //checks if the image is empty
+                                if (fileList == null || fileList.length == 0 || fileList == undefined) {
+                                    image_msg.innerText = 'Please upload an image';
+                                    image_msg.className = " text-white bg-danger rounded-2 p-1";
+                                    this.check_page2 = false;
+                                    // console.log("add error msg for: image_err"+i);
+                                } else {
+                                    image_msg.innerText = '';
+                                    image_msg.className = "";
+                                }
+                            }
+                        }
+
+                        //if all not empty, add attraction section
+                        if (this.check_page2) {
+                            this.isProgrammaticChange = true;
+                            this.attraction_count += 1;
+                            i = this.attraction_count;
+
+                            // apply delete function the attraction0
+                            // document.getElementById("delete_Attr0").addEventListener('click', (event) => {
+                            //         this.deleteAttraction(event, 0);
+                            // });
+
+                            // might cause erro^^^^^^^^^rrrrrr
+
+                            document.getElementById("attraction_section").innerHTML +=
+                                `
+                            <div id="attraction_index${i}">
+                                <!--=================== Location ======================== -->
+                                    <hr>
+                                    <div class=" ms-auto me-auto" style="width: 90%;">
+                                        <div class="d-flex container">
+                                            <label for="attraction_location${i}" class="col-12 form-label ">Attraction Location<span class="text-danger">*&nbsp; &nbsp;</span>
+                                                <span style="font-size:70%;" id="loc_err${i}"></span>
+                                               
+                                            </label> 
+                                            <button type="button" class=" btn "id="delete_Attr${i}" style="cursor: pointer;">❌</button>
+                                        </div>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="attraction_location${i}" placeholder="Click on [Check] to check Attraction's Location">
+                                            
+                                            <button type="button" onclick="getLoc(${i})" class="btn btn-warning z-0 ">Check</button>
+                                            <!-- store loc, how to show all properly -->
+                                           
+                                        </div>
+
+                                        <div class="d-flex mt-1">
+                                        <label for="attraction_Address${i}" class=" col-12 form-label ">Attraction Address </label>
+                                        </div>
+
+                                        <div class="">
+                                            <input type="text" class="form-control" id="attraction_Address${i}"
+                                                placeholder="Attraction's Address by Google Maps" disabled
+                                                readonly>
+                                        </div>
+                                        <!-- the following set the lat, lng values to put a marker on the map-->
+                                        <input type="hidden" id="lat${i}" name="lat${i}" value="1.2973784" /> <!-- default = SCIS's location -->
+                                        <input type="hidden" id="lng${i}" name="lng${i}" value="103.8495219" />
+
+                                    </div>
+
+                                    <!-- ===================== Image ======================== -->
+                                    <div class="mb-3 ms-auto me-auto mt-1" style="width: 90%;">
+                                        <label for="attraction_image${i}" class="form-label">Attraction Image<span class="text-danger">*&nbsp; &nbsp;</span>
+                                            <span style="font-size:70%;" id="image_err${i}"></span>
+                                        </label> 
+                                        <div class="input-group " style="width: 100%;">
+                                                <button type="button" class="btn btn-secondary z-0 " onclick="document.getElementById('attraction_image${i}').click();">Choose File</button>
+                                                <input type="file" class="form-control hidden-input" id="attraction_image${i}" accept="image/*" multiple="multiple">
+                                                <input class="form-control h-100 p-2" type="text" id="file_display${i}" disabled readonly>
+                                        </div>
+                                    </div>
+                            </div>
+                            `
+                            for (let j = 1; j <= i; j++) {
+                                if (document.getElementById("attraction_index" + j)) {
+                                    // console.log("checking :"+j);
+
+                                    document.getElementById("attraction_image" + j).addEventListener('change', (event) => {
+                                        this.onFileChange(event, j);
+                                    });
+                                    document.getElementById("attraction_location" + j).addEventListener('input', (event) => {
+                                        this.onlocInputChange(event, j);
+                                    });
+                                    document.getElementById("delete_Attr" + j).addEventListener('click', (event) => {
+                                        this.deleteAttraction(event, j);
+                                    });
+                                    document.getElementById('attraction_image' + j).addEventListener('change', function () {
+
+                                        if (this.files.length > 0) {
+                                            document.getElementById('file_display' + j).placeholder = `${this.files.length} file(s) selected`;
+                                        }
+                                        // else {
+                                        //     document.getElementById('file_display'+j).placeholder='No files chosen.';
+                                        // }
+                                    });
+                                }
+
+                            }
+                            document.getElementById("attraction_image" + 0).addEventListener('change', (event) => {
+                                this.onFileChange(event, 0);
+                            });
+                            document.getElementById("attraction_location" + 0).addEventListener('input', (event) => {
+                                this.onlocInputChange(event, 0);
+                            });
+
+                            document.getElementById('attraction_image' + 0).addEventListener('change', function () {
+
+                                if (this.files.length > 0) {
+                                    document.getElementById('file_display' + 0).placeholder = `${this.files.length} file(s) selected`;
+                                }
+                                // else {
+                                //     document.getElementById('file_display'+j).placeholder='No files chosen.';
+                                // }
+                            });
+
+
+
+
+
+
+                        } this.isProgrammaticChange = false;
+                        this.check_page2 = false;
+
+
+                    },
+
+                    // //
+                    async uploadImagesAndGetURLs() {
+                        console.log("Uploading images and getting URLs...");
+                        let urls = {};
+                        try {
+                            for (let key in this.stored_images) { // Note the use of 'this.'
+                                let fileList = this.stored_images[key]; // Note the use of 'this.'
+                                urls[key] = [];
+                                for (let i = 0; i < fileList.length; i++) {
+                                    let file = fileList[i];
+                                    let storageRef = firebase.storage().ref('all_post/'+ this.username + file.name);
+
+                                    // let storageRef = storage.ref('path_to_images/' + file.name);
+                                    await storageRef.put(file);
+                                    let url = await storageRef.getDownloadURL();
+                                    console.log("Uploaded file with URL:", url);
+                                    urls[key].push(url);
+                                }
+                            }
+                        } catch (error) {
+                            console.error("There was an error in the uploadImagesAndGetURLs function:", error.message);
+                            return {};
+                        }
+                        return urls;
+                    },
+
+
+                    async onSubmit() {
+                        let personName = '';
+                        if(sessionStorage.getItem("name")){
+                            personName = sessionStorage.getItem("name");
+                        }else{
+                            personName = "EcoWanderer";
+                        }
+                        
+                        let imageUrls = await this.uploadImagesAndGetURLs();
+                        console.log("imageUrls:", imageUrls);
+                        this.stored_attractions = {};
+                        
+                        let attraction_name = "attraction_name";
+                        let attraction_address = "attraction_address";
+                        let lat = "lat";
+                        let lng = "lng";
+                        let images = "images";
+
+                        var i= this.attraction_count;
+                        for (let j=0; j<=i; j++){
+                                if(document.getElementById("attraction_index"+j)){
+                                    this.stored_attractions[j] = {};
+                                    this.stored_attractions[j][attraction_name] = (document.getElementById("attraction_location"+j).getAttribute('value')).trim();
+                                    this.stored_attractions[j][attraction_address] = document.getElementById("attraction_Address"+j).getAttribute('value');
+                                    this.stored_attractions[j][lat] = document.getElementById("lat"+j).value;
+                                    this.stored_attractions[j][lng] = document.getElementById("lng"+j).value;
+                                    this.stored_attractions[j][images]= this.stored_images[j]
+                                    // stored_attraction{0:{address:"", lat:"", lng:"", images:{} }}
+                                }
+                            }
+
+
+                        // Replace file references with URLs
+                        for (let key in imageUrls) {
+                            if (this.stored_attractions[key]) {
+                                this.stored_attractions[key].images = imageUrls[key];
+                            }
+                        }
+
+                        // reset keys from 0 to n
+                        const resetKeys = (inputObj) => {
+                            return Object.values(inputObj).reduce((acc, curr, idx) => {
+                                acc[idx] = curr;
+                                return acc;
+                            }, {});
+                        };
+
+                        this.stored_attractions = resetKeys(this.stored_attractions);
+
+
+                        // Populate final_obj as before and store in Firebase
+                        this.final_obj.username = personName;
+                        this.final_obj.title = this.post_title.trim();
+                        this.final_obj.description = this.post_description.trim();
+                        this.final_obj.tags = this.post_tags;
+                        this.final_obj.attractions = this.stored_attractions;
+
+                        // Store the final object in Firebase Database
+                        const db = firebase.firestore();
+                        db.collection("all_posts").add(this.final_obj)
+                            .then((docRef) => {
+                                console.log("Document successfully written:", docRef.id);
+                            })
+                            .catch((error) => {
+                                console.error("Error adding document: ", error);
+                            });
+                        
+                    }
+                }
+            })
+
+            const vm = app.mount('#app');
+
+        </script>
+
+
+        <!--=============== GOOGLE MAPS ================-->
+        <script>
+            // Initialize and add the map
+            function initMap(idx) {
+                var i = 0;
+                if (idx != null) {
+                    i = idx;
+                }
+                // console.log(i);
+                // default: The location of SCIS, SMU
+                var lat = parseFloat(document.getElementById("lat" + i).value);
+                var lng = parseFloat(document.getElementById("lng" + i).value);
+                var loc = {
+                    lat: lat,
+                    lng: lng
+                };
+
+                // The map, centered at SCIS, SMU
+                var map = new google.maps.Map(
+                    // play with the zoom value to zoom in or out
+                    document.getElementById('map'), {
+                    zoom: 12,
+                    center: loc
+                });
+                // The marker, positioned at SCIS, SMU by default
+                var marker = new google.maps.Marker({
+                    position: loc,
+                    map: map
+                });
+            }
+        </script>
+        <script>
+            // Google API Key.
+            myKey = "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0"; // change here!!!
+
+            // replacement for script src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=XXX"
+            var myGoogleApiScript = document.createElement('script');
+            myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + myKey);
+            document.head.appendChild(myGoogleApiScript);
+        </script>
+        <script>
+            // called when button is clicked
+            function getLoc(idx) {
+                var i = idx;
+                var loc_err_msg = document.getElementById("loc_err" + i);
+                var input_loc = document.getElementById("attraction_location" + i).value;
+                //checks if the input location is empty
+                if ((input_loc.trim()).length == 0) {
+                    loc_err_msg.innerText = "Please enter attraction's location"
+                    loc_err_msg.className = " text-white bg-danger rounded-2 p-1";
+                } else {
+                    // console.log(i);
+                    var name = (document.getElementById("attraction_location" + i).value).trim();
+                    var addr = encodeURI(document.getElementById("attraction_location" + i).value);
+                    // console.log(addr);
+                    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addr + "&key= " + myKey;
+
+                    // axio call
+                    axios.get(url)
+                        .then(resp => {
+                            // console.log(resp.data)
+
+                            fullAddress = getFullAddress(resp.data);
+                            // console.log("hello")
+                            // this.attraction_location = fullAddress;
+                            document.getElementById("loc_err" + i).innerText = "";
+                            document.getElementById("loc_err" + i).className = "";
+                            //
+                            
+                            document.getElementById("attraction_location" + i).setAttribute('value', name);
+                            document.getElementById("attraction_location" + i).setAttribute('defaultValue', name);
+                            document.getElementById("attraction_location" + i).value = name;
+
+                            document.getElementById("attraction_Address" + i).setAttribute('value', fullAddress);
+                            document.getElementById("attraction_Address" + i).setAttribute('defaultValue', fullAddress);
+                            document.getElementById("attraction_Address" + i).value = fullAddress;
+                            //Show user if it is a valid address
+
+
+                            // refresh the hidden input values with new lat lng coordinates
+                            var coordinate = getLatLng(resp.data);
+                            document.getElementById("lat" + i).value = coordinate.lat;
+                            document.getElementById("lng" + i).value = coordinate.lng;
+
+                            // now refresh the map
+                            initMap(i);
+                        })
+                        .catch(err => {
+
+                            document.getElementById("loc_err" + i).innerText = "Sorry, invalid address. Please try again!"; // <-- This is preferable
+                            document.getElementById("loc_err" + i).className = " text-white bg-danger rounded-2 p-1";
+                        });
+                }
+            }
+
+            // extract the full address (address lat: xx, lng: xx) from response.data
+            function getFullAddress(data) {
+                var addr = data.results[0].formatted_address;
+                // var loc = getLatLng(data);
+
+                return addr;
+                // " lat: " + loc["lat"] + ", lng: " + loc["lng"];
+                // need to store the lat and lng 
+            }
+
+            // extract the location (lat long) from response.data
+            function getLatLng(data) {
+                var location = data.results[0].geometry.location;
+                return location;
+            }
+
+            // extract the postal code from response.data
+            function getPostCode(data) {
+                // var addrcomponents = data["results"][0]["address_components"];
+                var addrcomponents = data.results[0].address_components;
+                var postcode = addrcomponents.filter(postcodeHelper);
+                // country is an array but there should be only one element
+                return postcode[0]["long_name"];
+            }
+
+            // call back function for filter
+            function postcodeHelper(addr) {
+                return addr.types[0] == "postal_code";
+            }
+
+            //do i need this function??
+            function getKeys(data) {
+                // data["results"][0] is an object
+                // this gets the keys/properties of results[0] object
+                var keys = Object.keys(data.results[0]);
+                for (key of keys) {
+                    // this prints --
+                    /*  address_components
+                        formatted_address
+                        geometry
+                        place_id
+                        plus_code
+                        types */
+                    document.getElementById("loc_err").innerHTML += key + "<br>";
+                }
+            }
+
+            // extract country from response.data
+            function getCountry(data) {
+                // addrcomponents is an array
+                var addrcomponents = data.result[0].address_components;
+                // The filter() method creates a new array with array elements that passes a test.
+                var country = addrcomponents.filter(countryHelper);
+                // country is an array but there should be only one element
+                return country[0].long_name;
+            }
+
+            // call back function for filter
+            function countryHelper(addr, index) {
+                return addr.types[0] == "country";
+            }
+        </script>
+
+        <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+
+    </body>
+
+</html>
