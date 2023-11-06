@@ -21,6 +21,64 @@
     <link rel="stylesheet" href="style.css" />
     <title>Itinerary</title>
     <style>
+        
+        #tag_filter_input{
+            width: 100%;
+            margin: 0;
+            
+            
+            /* position:absolute ; */
+        }
+
+        input:focus, #tag_filter_input:focus {
+            outline: 3px solid #ddd;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+
+
+        .dropdown_menu_for_TAG_filter {
+            display: none;
+            position: absolute;
+            left:0;
+            top: 100%;
+            /* Changed from max-height and overflow-y */
+            background-color: #f6f6f6;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            
+            /* z-index: 1; */
+            max-height: 100px;
+            overflow: auto;
+        }
+
+
+        .dropdown-content label {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            /* Make it clear that the label is clickable */
+            border-bottom: 1px solid #ddd;
+            /* If you want to keep the underline effect */
+        }
+
+        .tag_checkbox {
+            margin-right: 10px;
+            max-width: 10px;
+        }
+
+        .dropdown label:hover {
+            background-color: #ddd;
+        }
         h2.card-title:hover,
         div.card_username:hover {
             cursor: pointer;
@@ -52,11 +110,21 @@
                 <h1>Discover the adventures that await you!</h1>
             </div>
             <form class="form">
-                <input type="text" name="title" placeholder="Enter itinerary title" aria-label="Search by title">
-                <input type="text" name="username" placeholder="Search by user" aria-label="Search by username">
-                <input type="text" name="tags" placeholder="Search tags (e.g., beach, hiking, zero-waste)"
-                    aria-label="Search by tags">
-                <button class="btn" type="submit">Search</button>
+                <input id="searchby_title" type="text" name="title" placeholder="Enter Itinerary Title" aria-label="Search by title">
+                <input id="searchby_user" type="text" name="title" placeholder="Search by User" aria-label="Search by username">
+                
+                <div class="dropdown dropdown-content">
+                    <input type="text" placeholder="Search by Tag" id="tag_filter_input" onkeyup="filterFunction()">
+                    <div id="myDropdown" class=" dropdown_menu_for_TAG_filter">
+                        <!-- <label><input type="checkbox" class="tag_checkbox" value="base" />Base</label>
+                        <label><input type="checkbox" class="tag_checkbox" value="blog" />Blog</label>
+                        <label><input type="checkbox" class="tag_checkbox" value="contact" />Contact</label>
+                        <label><input type="checkbox" class="tag_checkbox" value="custom" />Custom</label>
+                        <label><input type="checkbox" class="tag_checkbox" value="support" />Support</label>
+                        <label><input type="checkbox" class="tag_checkbox" value="tools" />Tools</label> -->
+                    </div>
+                </div>
+                <button onclick="filterPosts()" class="btn" type="button">Search</button>
             </form>
         </div>
     </section>
@@ -88,12 +156,18 @@
 
 <script>
     var posts = [];
+    var allusers = [];
+    var alltags = []; // have repeated tags
+    var list_of_all_tags = []; // cleaned data
+    var list_of_selected_tags = []; // from input
+    var alltitles = [];
+
     window.onload = getData;
     function getData() {
         console.log("hello")
         const db = firebase.firestore();
         // var posts = [];
-        db.collection("itinerary_posts").get().then((querySnapshot) => {
+        db.collection("all_posts").get().then((querySnapshot) => {
             // var posts = [];
             querySnapshot.forEach(doc => {
                 posts.push({ id: doc.id, ...doc.data() })
@@ -114,6 +188,11 @@
             let attractions = post.attractions;
             console.log("attractions: ", attractions);
 
+            allusers.push(username); 
+            alltitles.push(title);
+            alltags.push(tags);
+            populate_tag_filter_dropdown(alltags);
+
             let post_iti = document.getElementById("post_iti");
             let store_cards = document.getElementById("store_cards");
 
@@ -126,7 +205,7 @@
             card_body.setAttribute("class", "card-body h-100 w-100 overflow-auto");
 
             let card_title = document.createElement("h2");
-            card_title.setAttribute("class", "card-title");
+            card_title.setAttribute("class", "card-title mx-3");
             card_title.setAttribute("style", "font-family:Roboto")
             // card_title.setAttribute("onclick", "iti_details(event)")
             card_title.innerHTML = title;
@@ -245,7 +324,7 @@
     }
 
     function filterPosts() {
-
+        
 
     }
 
@@ -268,6 +347,80 @@
 
         window.location.href = "itinerary_details.html"
     }
+
+</script>
+
+<!-- for the tag filter dropdown -->
+<script>
+    var selectedItems = [];
+    document.addEventListener('DOMContentLoaded', function () {
+        var checkboxes = document.querySelectorAll('.tag_checkbox');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+
+                if (this.checked && !selectedItems.includes(this.value)) {
+                    selectedItems.push(this.value);
+                } else if (!this.checked && selectedItems.includes(this.value)) {
+                    selectedItems = selectedItems.filter(item => item !== this.value);
+                }
+                console.log(selectedItems);
+            });
+        });
+    });
+
+    function filterFunction() {
+        var input, filter, dropdown, labels, i, txtValue;
+        input = document.getElementById("tag_filter_input");
+        filter = input.value.toUpperCase();
+        dropdown = document.getElementById("myDropdown");
+        labels = dropdown.getElementsByTagName("label");
+
+        // If input is not empty, show dropdown, otherwise only show checked items
+        if (input.value !== "") {
+            dropdown.style.display = "block";
+            for (i = 0; i < labels.length; i++) {
+                txtValue = labels[i].textContent || labels[i].innerText;
+                if (txtValue.toUpperCase().includes(filter)) {
+                    labels[i].style.display = "flex";
+                } else {
+                    labels[i].style.display = "none";
+                }
+            }
+        } else {
+            // Clearing the search bar - only show checked items
+            for (i = 0; i < labels.length; i++) {
+                if (labels[i].querySelector('.tag_checkbox').checked) {
+                    labels[i].style.display = "flex";
+                } else {
+                    labels[i].style.display = "none";
+                }
+            }
+            // Hide the dropdown if no items are checked
+            dropdown.style.display = selectedItems.length > 0 ? "block" : "none";
+        }
+    }
+    function populate_tag_filter_dropdown(alltags){
+        var dropdown = document.getElementById("myDropdown");
+        for (var post_tag of alltags){
+            for(var tag of post_tag){
+                if (!list_of_all_tags.includes(tag.toLowerCase())){
+                    list_of_all_tags.push(tag.toLowerCase());
+                    var label = document.createElement("label");
+                    var checkbox = document.createElement("input");
+                    checkbox.setAttribute("type", "checkbox");
+                    checkbox.setAttribute("class", "tag_checkbox");
+                    checkbox.setAttribute("value", tag.toLowerCase());
+                    label.appendChild(checkbox);
+                    label.innerHTML += tag.toLowerCase();
+                    dropdown.appendChild(label);
+                }
+
+            }
+        }
+
+
+    }
+
 
 </script>
 

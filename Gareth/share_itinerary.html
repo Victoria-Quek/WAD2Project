@@ -762,7 +762,7 @@
                                 urls[key] = [];
                                 for (let i = 0; i < fileList.length; i++) {
                                     let file = fileList[i];
-                                    let storageRef = firebase.storage().ref('all_post/'+ this.username + file.name);
+                                    let storageRef = firebase.storage().ref('all_post/'+ file.name);
 
                                     // let storageRef = storage.ref('path_to_images/' + file.name);
                                     await storageRef.put(file);
