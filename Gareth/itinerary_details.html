@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Itinerary Details</title>
+</head>
+
+<style>
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 90%;
+        /* The width is the width of the web page */
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+
+    /* for the tag below the MAP */
+    p {
+        text-align: center;
+        font-size: 20px;
+        color: #fde02f;
+    }
+
+    h3 {
+        text-align: center;
+        font-family: Satisfy;
+        font-size: 55px;
+        color: #fde02f;
+        letter-spacing: 1px;
+
+    }
+
+    .googleMap {
+        background-color: green;
+    }
+</style>
+
+<body>
+
+    <body>
+
+        <!--===========Nav Bar=================-->
+        <section class="nav-bar">
+            <div class="logo">EcoWanderers</div>
+            <ul class="menu">
+                <li><a href="wad2_index.html">Hotels</a></li>
+                <li><a href="itinerary_page.html">Itinerary</a></li>
+                <li><a href="#">Chats</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            </div>
+
+        </section>
+
+        <div id="main_container">
+            <!--===============Banner================-->
+            <section class="googleMap py-3">
+                <!-- POST TITLE -->
+                <h3 class="py-3 text-white">{{post_title}}</h3>
+                <!--The div element for the map -->
+                <div id="map" class="border border-3 border-warning"></div>
+                
+                <!-- POST TAGS -->
+                <p class="py-1 my-3">
+                    <span v-for="tag in post_tags" class="badge bg-white text-success m-1 " style=" font-family: Roboto">
+                        # {{tag}}
+                    </span>
+                </p>
+                <!-- POST DESCRIPTION -->
+                <p class=" my-5 w-75 me-auto ms-auto text-white" style=" font-family: Roboto">{{post_description}}</p>
+            </section>
+            <!--==============Places===================-->
+            <section class="places">
+
+                <div class="cards m-5">
+                    <div v-for="(key, index) in attractions" :key="`attraction-${index}`" class="card bg-warning w-100">
+                        
+                        <div class="zoom-img">
+                            <div class="img-card">
+                                <div :id="`carousel_itinerary_details-${index}`"
+                                    class="container carousel slide  ms-auto me-auto mt-3 mb-3"
+                                    data-bs-ride="carousel">
+                                    <!-- Images area -->
+                                    <div class="carousel-inner">
+                                        <div v-for="(image, imageIndex) in key.images" :key="imageIndex"
+                                            :class="['carousel-item', { active: imageIndex === 0 }]">
+                                            <img :src="image" class="d-block w-100" alt="" />
+                                        </div>
+                                    </div>
+                                    <!-- Previous Button -->
+                                    <button class="carousel-control-prev" type="button"
+                                        :data-bs-target="`#carousel_itinerary_details-${index}`" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <!-- Next Button -->
+                                    <button class="carousel-control-next" type="button"
+                                        :data-bs-target="`#carousel_itinerary_details-${index}`" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                            <div class="text m-3">
+                                <h4 style=" font-family: Roboto">{{key.attraction_name }}</h4>
+                                <!-- <span class="rating">⭐⭐⭐⭐⭐</span> -->
+                            
+                                <span  style=" font-family: Roboto">{{ key.attraction_address }}</span>
+                            </div>
+                        
+                    </div>
+                </div>
+
+
+            </section>
+            <!--============== Feedbacks ===================-->
+        </div>
+
+
+        <!--============== Testing  ===================-->
+        <script>
+            var postData = localStorage['post'];
+            localStorage.removeItem('post');
+            postData = JSON.parse(postData);
+            console.log(postData);
+            // console.log(typeof(postData["attractions"]))
+            // console.log(postData["attractions"][0]["images"][0]);
+        </script>
+        <script>
+            const main_container = Vue.createApp({
+                data() {
+                    return {
+                        myKey: "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0",//change here google api key
+
+                        post_id: postData["id"],
+                        post_username: postData["username"],
+                        post_title: postData["title"],
+                        post_description: postData["description"],
+                        post_tags: postData["tags"],
+
+                        attractions: postData["attractions"]
+
+
+                        // attractions:{0:{address:"", lat:"", lng:"", images:{} }} 
+                    }
+                },
+                methods: {
+                    loadmap() {
+                        // Create googleapi script in head
+                        var myGoogleApiScript = document.createElement('script');
+                        myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + this.myKey);
+                        document.head.appendChild(myGoogleApiScript);
+                    },
+                    async initMap() {
+                        var neutral = new google.maps.LatLng(1.2973784, 103.8495219);
+                        // The map, centered at a neutral location
+                        var map = new google.maps.Map(
+                            document.getElementById('map'),
+                            {
+                                zoom: 12,
+                                center: neutral
+                            }
+                        );
+                        const bounds = new google.maps.LatLngBounds();
+                        for (key in this.attractions) {
+                            let attraction = this.attractions[key];
+                            console.log(attraction);
+                            let lng = parseFloat(attraction["lng"]);
+                            let lat = parseFloat(attraction["lat"]);
+                            let loc = {
+                                lat: lat,
+                                lng: lng
+                            };
+                            let marker = new google.maps.Marker({
+                                position: loc,
+                                map: map,
+                            });
+                            bounds.extend(loc);
+
+                        }
+                        map.fitBounds(bounds);
+                    }
+                }, mounted() {
+                    this.loadmap();
+                    window.initMap = this.initMap;
+                }
+            }).mount('#main_container')
+        </script>
+
+        <!--=============== GOOGLE MAPS ================-->
+        <!-- <script>
+            function initMap() {
+                // Default locations
+                // Korea
+                // Changdeokgung Palace
+                var lat1 = parseFloat("37.5799002");
+                var lng1 = parseFloat("126.991174");
+                var loc1 = {
+                    lat: lat1,
+                    lng: lng1
+                };
+                // namsan mountain park
+                var lat2 = parseFloat("37.5509895");
+                var lng2 = parseFloat("126.9908991");
+                var loc2 = {
+                    lat: lat2,
+                    lng: lng2
+                };
+                // namsangol hanok village
+                var lat3 = parseFloat("37.559315");
+                var lng3 = parseFloat("126.994477");
+                var loc3 = {
+                    lat: lat3,
+                    lng: lng3
+                };
+                // Seoul Forest Park
+                var lat4 = parseFloat("37.5443878");
+                var lng4 = parseFloat("127.0374424");
+                var loc4 = {
+                    lat: lat4,
+                    lng: lng4
+                };
+
+                // where should the map be centered at? 
+                // thinking to leave it at the first input location
+                var neutral = new google.maps.LatLng(37.5509895, 126.9908991);
+
+                // The map, centered at a neutral location
+                var map = new google.maps.Map(
+                    document.getElementById('map'),
+                    {
+                        zoom: 12,
+                        center: neutral
+                    }
+                );
+
+                // Create markers with labels
+                var markerA = new google.maps.Marker({
+                    position: loc1,
+                    map: map
+                });
+
+                var markerB = new google.maps.Marker({
+                    position: loc2,
+                    map: map
+                });
+
+                var markerC = new google.maps.Marker({
+                    position: loc3,
+                    map: map
+                });
+
+                var markerD = new google.maps.Marker({
+                    position: loc4,
+                    map: map
+                });
+
+                // // Create a DirectionsService object to find routes
+                // var directionsService = new google.maps.DirectionsService();
+
+                // // Define the waypoints for the route
+                // var waypoints = [
+                //     // { location: loc, stopover: true },
+                //     { location: loc2, stopover: true },
+                //     { location: loc3, stopover: true }
+                // ];
+
+                // // Create a DirectionsRenderer object to display the route
+                // var directionsDisplay = new google.maps.DirectionsRenderer({
+                //     map: map
+                // });
+
+                // // Define the request for the route
+                // var request = {
+                //     origin: loc1,
+                //     destination: loc4,
+                //     waypoints: waypoints,
+                //     travelMode: google.maps.TravelMode.DRIVING
+                // };
+
+                // // Calculate and display the route
+                // directionsService.route(request, function (response, status) {
+                //     if (status === 'OK') {
+                //         directionsDisplay.setDirections(response);
+                //     } else {
+                //         window.alert('Directions request failed due to ' + status);
+                //     }
+                // });
+            }
+        </script> -->
+
+        <!--Load the API from the specified URL
+        * The async attribute allows the browser to render the page while the API loads
+        * The key parameter will contain your own API key 
+        * The callback parameter executes the initMap() function
+        -->
+        <!-- <script>
+            // Google API Key.
+            myKey = "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0"; // change here!!!
+
+            // replacement for script src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=XXX"
+            var myGoogleApiScript = document.createElement('script');
+            myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + myKey);
+            document.head.appendChild(myGoogleApiScript);
+        </script> -->
+
+        <!-- Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+    </body>
+
+</html>
