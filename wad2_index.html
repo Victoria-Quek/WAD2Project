@@ -6,31 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    
-    <title>EcoWanderers</title>
-    <script src="security.js"></script>
-    <script src="logout.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
+
+    <title>EcoWanderers</title>
 </head>
 
 
     <body>
 
-        <script>
-            let personName = sessionStorage.getItem("name");
-    
-            
-         </script>
-    
-            <!--===========Nav Bar=================-->
-        <!-- NAVBAR --> 
-        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light"> 
+        <!--===========Nav Bar=================-->
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
             <div class="container-fluid"> 
                 <!-- APP name --> 
-                <a class="navbar-brand logo" href="#" style="color: green; font-weight: bold;">🌍 Eco<strong id="wanderer">Wanderers</strong></a> 
+                <a class="navbar-brand logo" href="#">🌍 EcoWanderers</a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarSupportedContent"> 
                     <span class="navbar-toggler-icon"></span> 
@@ -42,7 +31,7 @@
      
                         <!-- li --> 
                         <li class="nav-item"> 
-                            <a class="nav-link active" href="#">Itinerary</a> 
+                            <a class="nav-link active" href="#">Posts</a> 
                         </li> 
                         <li class="nav-item"> 
                             <a class="nav-link" href="Chatbot.html">Chatbot</a> 
@@ -63,6 +52,7 @@
                 </div> 
             </div> 
         </nav>
+        
         <!--===============Banner================-->
         <section class="banner">
             <div class="banner-text-item">
@@ -82,10 +72,11 @@
         </section>
 
        
-        <div id="output"><div class="o-text">Generate your sustainable itinerary!</div></div>
-      
+        <div id="output" class="output-container" style = "display: none;">
+            <div id="loadingSkeleton" class="skeleton" style = "display: none;"></div>
+        </div>
         <script src="script.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
         <!--==============Places===================-->
     <br>
         <section class="places">
