@@ -21,6 +21,24 @@
    
     
     /* Body / Profile */
+    img{
+      width: 250px;
+    }
+    @media all and (max-width: 1200px){
+      img{
+        width:200px;
+      }
+    }
+    @media all and (max-width: 992px) {
+      img{
+        width: 180px
+      }
+    }
+    @media all and (max-width: 767px){
+      img{
+        width:300px
+      }
+    }
     body{
       background-image: url("https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2017/11/travel-photography-tips-photojaanic-7.jpg");
     }
@@ -65,10 +83,6 @@
       cursor: pointer;
       border: solid 1px #2e8d3d;
     }
-
-    img{
-      width: 250px;
-    }
     
     /* Back button */
     #back {
@@ -108,7 +122,7 @@
                         <a class="nav-link" href="wad2_index.html">Home</a> 
                     </li> 
                     <li class="nav-item"> 
-                        <a class="nav-link" href="#">Itinerary</a> 
+                        <a class="nav-link" href="itinerary_page.html">Itinerary</a> 
                     </li> 
                     <li class="nav-item"> 
                         <a class="nav-link" href="Chatbot.html">Chatbot</a> 
@@ -224,7 +238,7 @@
   </div>
   <script>
     function goBack(){
-        window.location.assign("Gareth/itinerary_page.html") // to EDIT
+        window.location.assign("itinerary_page.html") // to EDIT
     }
   </script>
   <script type="module">
