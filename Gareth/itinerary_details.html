@@ -57,17 +57,40 @@
     <body>
 
         <!--===========Nav Bar=================-->
-        <section class="nav-bar">
-            <div class="logo">EcoWanderers</div>
-            <ul class="menu">
-                <li><a href="wad2_index.html">Hotels</a></li>
-                <li><a href="itinerary_page.html">Itinerary</a></li>
-                <li><a href="#">Chats</a></li>
-                <li><a href="#">Profile</a></li>
-            </ul>
-            </div>
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid">
+        <a class="navbar-brand logo" href="../wad2_index.html">🌍 EcoWanderers</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent"> 
+            <span class="navbar-toggler-icon"></span> 
+        </button> 
+ 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        </section>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links">
+                <li class="nav-item">
+                    <a class="nav-link" href="../wad2_index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Chatbot.html">Chatbot</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../travelplanner1.html">Calculator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../newProfile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="logOut()">Logout</a>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+    </nav>
 
         <div id="main_container">
             <!--===============Banner================-->
