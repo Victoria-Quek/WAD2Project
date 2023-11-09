@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+
+    <script type="module" src="gareth's_script.js"></script>
+    <script src="security.js"></script>
+        <script src="logout.js"></script>
+    <link rel="stylesheet" href="gareth's_style.css" />
+    <title>Itinerary Details</title>
+</head>
+
+<style>
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 450px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+
+    /* for the tag below the MAP */
+    p {
+        /* text-align: center; */
+        font-size: 20px;
+        color: #fde02f;
+    }
+
+    h3 {
+        /* text-align: center; */
+        font-family: Satisfy;
+        font-size: 55px;
+        color: #fde02f;
+        letter-spacing: 1px;
+
+    }
+
+    .googleMap,
+    .comment_section {
+        background-color: #14425f;
+    }
+
+    .card {
+        height: 600px;
+        background-color: #f2d2a9;
+        color: #14425f;
+    }
+
+    .btn {
+        background-color: #f2d2a9;
+        color: #14425f;
+    }
+
+    #post_description_section,
+    .badge {
+        cursor: pointer;
+    }
+
+    .comments-container {
+        max-height: 300px;
+        /* or any value that fits your design */
+        overflow-y: auto;
+        /* enables vertical scrolling */
+        margin-bottom: 1rem;
+    }
+
+    .comment {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        padding: 0.5rem;
+        /* Add some padding around the text */
+        border-bottom: 1px solid #e1e1e1;
+        /* Add a border between comments */
+    }
+
+    #username_ofPost:hover,
+    #comment_button:hover {
+        cursor: pointer;
+        color: #f2d2a9;
+    }
+</style>
+
+<body>
+
+    <body>
+
+        <!--===========Nav Bar=================-->
+        <!-- <section class="nav-bar"> -->
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white">
+            <div class="container-fluid">
+                <!-- APP name -->
+                <a class="navbar-brand logo" href="wad2_index.html">🌍 EcoWanderers</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links">
+
+                        <!-- li -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="wad2_index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Chatbot.html">Chatbot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="travelplanner1.html">Calculator</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="newProfile.html">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logOut()">Logout</a>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- </section> -->
+
+        <div id="main_container">
+            <!--===============Banner================-->
+            <section class="googleMap py-5" style="margin-top: 115px;">
+
+                <!--The div element for the map -->
+                <div id="map" class="border border-white border-5 border-end-0 border-start-0"></div>
+                <div class="container mt-5 w-100 col-11">
+                    <!-- POST TITLE -->
+                    <h3 class="text-white d-inline">{{post_title}}</h3>
+                    <div>
+                        <!-- POST AUTHOR -->
+                        <h4 class="text-white d-inline mt-2" style="font-family: Barlow;">by <span id="username_ofPost"
+                                @click=" postUsername(user_name)">{{post_username}}</span></h4>
+                        <hr style="color:white">
+
+                        <p class="d-flex justify-content-between">
+                            <!-- LIKE BUTTON -->
+                            <span style="cursor: pointer;" :class="{'text-danger': liked, 'text-white': !liked}"
+                                @click="toggleLike">
+                                {{ liked ? '❤️ Liked' : '🤍 Like' }}
+                            </span>
+                            <!-- COMMENT BUTTON -->
+                            <span id="comment_button" @click="toCommentSection" style="color:white"><img
+                                    src="comment_white.png" alt="Comments"
+                                    style="width:20px; height:20px">&nbsp;Comments</span>
+                        </p>
+
+                        <!-- Display the number of likes -->
+                        <div style="color: #f2d2a9;">
+                            <span>{{ no_likes }} likes</span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- POST DESCRIPTION -->
+                    <div id="post_description_section">
+                        <div v-if="isShortDescription" @click="toggleDescription()">
+                            <!-- Display short description if it's active -->
+                            <p class="my-3 text-white" style="font-family: Roboto">{{ short_description }}</p>
+                            <button class="btn" style="background-color: #f2d2a9; color: #14425f;">Read More</button>
+                        </div>
+                        <div v-else @click="toggleDescription()">
+                            <!-- Display full description if short description is not active -->
+                            <p class="my-3 text-white" style="font-family: Roboto">{{ post_description }}</p>
+                            <button class="btn text-white" style="background-color: #f2d2a9; color: #14425f;">Read
+                                Less</button>
+                        </div>
+                    </div>
+
+                    <!-- POST TAGS -->
+                    <p class="py-1 my-3">
+                        <span v-for="tag in post_tags" class="badge bg-white m-1 "
+                            style=" font-family: Roboto; color: #14425f;" @click=" handleTagClick(tag)">
+                            # {{tag}}
+                        </span>
+                    </p>
+                </div>
+
+            </section>
+            <!--==============Places===================-->
+            <section class="contianer places me-auto ms-auto col-11">
+
+                <div class="cards my-5 m-sm-5">
+                    <div v-for="(key, index) in attractions" :key="`attraction-${index}`" class="card w-100"
+                        style="height: 550px;">
+
+                        <div class="zoom-img">
+                            <div class="img-card">
+                                <div :id="`carousel_itinerary_details-${index}`"
+                                    class="container carousel slide  ms-auto me-auto mt-3 mb-3" data-bs-ride="carousel">
+                                    <!-- Images area -->
+                                    <div class="carousel-inner">
+                                        <div v-for="(image, imageIndex) in key.images" :key="imageIndex"
+                                            :class="['carousel-item', { active: imageIndex === 0 }]">
+                                            <img :src="image" class="d-block w-100" alt="" />
+                                        </div>
+                                    </div>
+                                    <!-- Previous Button -->
+                                    <button class="carousel-control-prev" type="button"
+                                        :data-bs-target="`#carousel_itinerary_details-${index}`" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <!-- Next Button -->
+                                    <button class="carousel-control-next" type="button"
+                                        :data-bs-target="`#carousel_itinerary_details-${index}`" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="text overflow-auto mt-3">
+                            <h4 style=" font-family: Roboto">{{key.attraction_name }}</h4>
+                            <!-- <span class="rating">⭐⭐⭐⭐⭐</span> -->
+
+                            <span style=" font-family: Roboto">{{ key.attraction_address }}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </section>
+            <!--============== Feedbacks ===================-->
+            <section class="contianer comment_section py-5 px-3">
+                <div class="container bg-light rounded-2 pt-4">
+                    <div class="row">
+                        <div class="col">
+                            <h2 id="comment_title"><img src="comment.png" alt=""
+                                    style="width:50px; height:50px ">&nbsp;Comments </h2>
+
+                            <!-- New Comment Input -->
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Leave a comment..."
+                                    v-model="newCommentText">
+                                <button class="btn" type="button" @click="postComment"
+                                    style="background-color: #f2d2a9; color: #14425f;">Post Comment</button>
+                            </div>
+                            <hr>
+                            <!-- Displaying Comments -->
+                            <div class="comments-container">
+                                <div v-for="comment in comments" :key="comment.id" class="comment bg-light mb-1">
+                                    <p><strong style="color: #14425f;">{{ comment.user }}</strong> <span
+                                            class="text-dark">{{ comment.text}}</span></p>
+                                    <small>{{ comment.dateTime }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+
+        <!--============== Testing  ===================-->
+        <script>
+            var postData = localStorage['post'];
+            // localStorage.removeItem('post');
+            // remeber to keep re-establishing 'post' in local storage
+
+            postData = JSON.parse(postData);
+            console.log(postData);
+            // console.log(typeof(postData["attractions"]))
+            // console.log(postData["attractions"][0]["images"][0]);
+            var personName = '';
+            if (sessionStorage.getItem("name")) {
+                personName = sessionStorage.getItem("name");
+            } else {
+                personName = "EcoWanderer";
+            }
+            // console.log("yooooooo", personName);
+
+            // Your web app's Firebase configuration
+            // var db = firebase.firestore();
+
+            // backup database
+            const firebaseConfig = {
+                apiKey: "AIzaSyDEk77OIXpJdLHLUCA7aDSsildfVsmeDCg",
+                authDomain: "wad2-8e4a4.firebaseapp.com",
+                projectId: "wad2-8e4a4",
+                storageBucket: "wad2-8e4a4.appspot.com",
+                messagingSenderId: "384425470357",
+                appId: "1:384425470357:web:970a230af00d81207cee9c",
+                measurementId: "G-TDCJHZ0MK2"
+            };
+            // var testing = ["kaelen123", "enuice123", "ecowanderer123"]
+            // Initialize Firebase
+            console.log("Firebase initialising...");
+            const app2 = firebase.initializeApp(firebaseConfig);
+            // const storage = getStorage(app);
+            var db = firebase.firestore(app2);
+            console.log('db:', db)
+            // console.log("testing", db.collection("all_posts").doc(postData["id"]).update({
+            //                         'likes': testing
+            //                     }))
+
+        </script>
+        <script>
+            const main_container = Vue.createApp({
+                data() {
+                    return {
+                        myKey: "AIzaSyD-6kWIA3PzhZHWQkDqW9nWr-b2YwT_ip0",//change here google api key
+
+                        user_name: personName,
+
+                        post_id: postData["id"],
+                        post_username: postData["username"],
+                        post_title: postData["title"],
+                        post_description: postData["description"],
+                        post_tags: postData["tags"],
+                        isShortDescription: true,
+                        attractions: postData["attractions"],
+
+
+                        newCommentText: '',
+                        // usernameLabel: post_username, // Changed for clarity
+                        comments: postData["comments"],
+
+                        test_db: db,
+                        likedUsers: [],   // Array to store the liked usernames
+                        liked: false,
+
+
+
+
+                        // attractions:{0:{address:"", lat:"", lng:"", images:{} }} 
+                    };
+                },
+                created() {
+                    this.fetchLikedUsers();
+                    this.fetchComments();
+                },
+                computed: {
+                    short_description() {
+                        // Compute the short description based on the post_description
+                        return this.post_description.length > 200
+                            ? this.post_description.slice(0, 151) + "... "
+                            : this.post_description;
+                    },
+                    no_likes() {
+                        return this.likedUsers.length;
+                    },
+                },
+                methods: {
+                    loadmap() {
+                        // Create googleapi script in head
+                        var myGoogleApiScript = document.createElement('script');
+                        myGoogleApiScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?callback=initMap&key=' + this.myKey);
+                        document.head.appendChild(myGoogleApiScript);
+                    },
+                    async initMap() {
+                        var neutral = new google.maps.LatLng(1.2973784, 103.8495219);
+                        // The map, centered at a neutral location
+                        var map = new google.maps.Map(
+                            document.getElementById('map'),
+                            {
+                                zoom: 12,
+                                center: neutral
+                            }
+                        );
+                        const bounds = new google.maps.LatLngBounds();
+                        for (key in this.attractions) {
+                            let attraction = this.attractions[key];
+                            console.log(attraction);
+                            let lng = parseFloat(attraction["lng"]);
+                            let lat = parseFloat(attraction["lat"]);
+                            let loc = {
+                                lat: lat,
+                                lng: lng
+                            };
+                            let marker = new google.maps.Marker({
+                                position: loc,
+                                map: map,
+                            });
+                            bounds.extend(loc);
+
+                        }
+                        map.fitBounds(bounds);
+                    },
+                    toggleDescription() {
+                        // Toggle the isShortDescription flag
+                        this.isShortDescription = !this.isShortDescription;
+                    },
+                    async fetchComments() {
+                        await this.test_db.collection("all_posts").doc(this.post_id).get()
+                            .then(doc => {
+                                if (doc.exists) {
+                                    const data = doc.data();
+                                    this.comments = data.comments || [];
+                                } else {
+                                    console.log("No such document!");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error getting document:", error);
+                            });
+                    },
+                    async fetchLikedUsers() {
+                        await this.test_db.collection("all_posts").doc(this.post_id).get()
+                            .then(doc => {
+                                if (doc.exists) {
+                                    const data = doc.data();
+                                    this.likedUsers = data.likes || [];
+                                    this.liked = this.likedUsers.includes(this.user_name);
+                                } else {
+                                    console.log("No such document!");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error getting document:", error);
+                            });
+                    },
+                    postUsername(username) {
+                        // console.log("username", username);
+                        
+
+                        localStorage.setItem("postUsername", username);
+                        if (sessionStorage.getItem("name")==username){
+                            window.location.href = "newProfile.html";
+                        }else{
+                        // Navigate to the next HTML page
+                        window.location.href = "otherProfile.html";}
+                    },
+                    toggleLike() {
+                        // console.log
+                        // console.log("lsistttotototot",this.likedUsers)
+                        // console.log("nammmmmmeee",this.user_name)
+                        // console.log("liked",this.liked)
+                        // var username = this.likedUsers.indexOf(this.user_name);
+                        this.liked = !this.liked;
+
+                        if (this.liked) {
+                            // If it's liked, add the username to the array
+                            console.log(this.user_name)
+                            if (!this.likedUsers.includes(this.user_name)) {
+                                this.likedUsers.push(this.user_name);
+                                // console.log(this.db)
+                                this.test_db.collection("all_posts").doc(this.post_id).update({
+                                    'likes': this.likedUsers
+                                })
+                            }
+                        } else {
+                            // If it's not liked, remove the username from the array
+                            const index = this.likedUsers.indexOf(this.user_name);
+                            if (index !== -1) {
+                                this.likedUsers.splice(index, 1);
+                                this.test_db.collection("all_posts").doc(this.post_id).update({
+                                    'likes': this.likedUsers
+                                })
+                            }
+                        }
+                    },
+                    toCommentSection() {
+                        // Scroll to the comment section
+                        document.getElementById("comment_title").scrollIntoView();
+                    },
+                    handleTagClick(tag) {
+                        // Handle tag click
+                        console.log(tag);
+                        localStorage.setItem("tag_from_Detailspage", tag);
+                        window.location.href = "itinerary_page.html"
+                    },
+                    postComment() {
+
+                        console.log(this.comments);
+                        if (!this.newCommentText.trim()) { // Check for empty comment
+                            return; // Do not post if the comment is empty
+                        }
+                        const id = this.comments.length;
+                        const now = new Date();
+                        const dateTime = now.toLocaleString();
+                        this.comments.unshift({ // Add new comment to the end of the array
+                            id: id,
+                            user: this.user_name,
+                            text: this.newCommentText,
+                            dateTime: dateTime
+                        });
+
+                        // need to push comments here
+                        console.log(this.comments);
+                        this.test_db.collection("all_posts").doc(this.post_id).update({
+                            'comments': this.comments
+                        })
+                        this.newCommentText = ''; // Clear the text input after posting
+                    }
+                }, mounted() {
+                    this.loadmap();
+                    window.initMap = this.initMap;
+
+
+                }
+            }).mount('#main_container')
+        </script>
+
+
+        <!-- Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+    </body>
+
+</html>
