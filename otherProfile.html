@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script src="security.js"></script>
+  <script src="logout.js"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+  <!-- Icon -->
+  <script src="https://kit.fontawesome.com/772b8d0d96.js" crossorigin="anonymous"></script>
+
+  <!-- Using Vue CDN -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <style>
+   
+    
+    /* Body / Profile */
+    body{
+      background-image: url("https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2017/11/travel-photography-tips-photojaanic-7.jpg");
+    }
+
+    .submit-button {
+      background: #228B22;
+      box-shadow: none;
+      border: none
+    }
+
+    .submit-button:hover {
+      background: #61b55e;
+    }
+
+    .submit-button:focus {
+      background: #228B22;
+      box-shadow: none
+    }
+
+    .submit-button:active {
+      background: #3650b7;
+      box-shadow: none
+    }
+
+    .back:hover {
+      color: #2e8d3d;
+      cursor: pointer
+    }
+
+    .labels {
+      font-size: 15px
+    }
+
+    p{
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .add-experience:hover {
+      background: #2e8d3d;
+      color: white;
+      cursor: pointer;
+      border: solid 1px #2e8d3d;
+    }
+
+    img{
+      width: 250px;
+    }
+    
+    /* Back button */
+    #back {
+        text-decoration: none;
+        color: #fff;
+        text-transform: uppercase;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 5px;
+        cursor: pointer;
+        background-color: #4cafad;
+        font-size: 16px;
+        font-weight: normal;
+        font-family: "Barlow Condensed";
+   
+    }
+  </style>
+
+  <body>
+    <!-- NAVBAR --> 
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light"> 
+        <div class="container-fluid"> 
+            <!-- APP name --> 
+            <a class="navbar-brand logo" href="wad2_index.html">🌍 EcoWanderers</a> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent"> 
+                <span class="navbar-toggler-icon"></span> 
+            </button> 
+ 
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links"> 
+ 
+                    <!-- li -->
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="wad2_index.html">Home</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="#">Itinerary</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="Chatbot.html">Chatbot</a> 
+                    </li>
+
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="travelplanner1.html">Calculator</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link active" href="newProfile.html">Profile</a> 
+                    </li> 
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="#" onclick="logOut()">Logout</a> 
+                    </li> 
+                </ul> 
+ 
+                
+            </div> 
+        </div> 
+    </nav>
+    <br><br><br><br><br>
+    <div class="container rounded bg-white mt-5 mb-5">  
+      <button type="button" class="btn" id="back" onclick="goBack()"><i class='fas fa-arrow-left'></i></button>  
+      <div class="row" id="profile">
+          <div class="col-md-3 border-right">
+              <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                  <img :src="profilepic" alt="Profile Picture">
+                  <span class="font-weight-bold">{{username}}</span>
+
+              
+              <span class="text-black-50">{{email}}</span>
+              </div>
+          </div>
+          <div class="col-md-5 border-right" id="profile">
+              <div class="p-2 py-5">
+  
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h4 class="text-right">Profile</h4>
+                  </div>
+                  
+                  <div class="row mt-2">
+                      
+                      <div class="col-md-6">
+                          <label class="labels">Name</label>
+                          <p>{{firstname}}</p>
+
+                      </div>
+  
+                      <div class="col-md-6">
+                          <label class="labels">Surname</label>
+                          <p>{{surname}}</p>
+
+                      </div>
+  
+                  </div>
+                  
+                  <div class="row mt-3">
+  
+                      <div class="col-md-12">
+                          <label class="labels">Mobile Number</label>
+                          <p>{{mobilenum}}</p>
+
+                      </div>
+  
+                      <div class="col-md-12">
+                          <label class="labels">Email</label>
+                          <p>{{email}}</p>
+
+                      </div>
+  
+                  </div>
+                  
+                  <div class="row mt-3">
+  
+                      <div class="col-md-6">
+                          <label class="labels">Country</label>
+                          <p>{{country}}</p>
+
+                      </div>
+  
+                      <div class="col-md-6">
+                          <label class="labels">State/Region</label>
+                          <p>{{state}}</p>
+
+                      </div>
+  
+                  </div>
+                  
+
+              </div>
+  
+          </div>
+        
+          <div class="col-md-4">
+              <div class="p-3 py-5">
+                  <div class="d-flex justify-content-between align-items-center mb-3"><h4>Experience</h4></div>
+  
+                  <div class="col-md-12">
+                      <label class="labels">Travelled:</label>
+                      <p>{{places}}</p>
+
+                  </div><br>
+  
+                  <div class="col-md-12">
+                      <label class="labels">Description:</label>
+                      <p>{{description}}</p>
+
+                  </div>
+  
+              </div>
+          </div>
+      </div>
+  </div>
+  <script>
+    function goBack(){
+        window.location.assign("Gareth/itinerary_page.html") // to EDIT
+    }
+  </script>
+  <script type="module">
+
+
+    let viewName = localStorage.getItem("postUsername")
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getDatabase, ref, onValue, set, push, child,update,get } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCk-z1yLhZiO77mBIpiosAzKaDKLH1jms0",
+      authDomain: "wad2-e3cd8.firebaseapp.com",
+      databaseURL: "https://wad2-e3cd8-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "wad2-e3cd8",
+      storageBucket: "wad2-e3cd8.appspot.com",
+      messagingSenderId: "812134457192",
+      appId: "1:812134457192:web:eeef06726f2f7af35e40dd",
+      measurementId: "G-61H6ZXLM3R"
+    };
+  
+    // Initialize Firebase
+    var viewUser = viewName
+    const app = initializeApp(firebaseConfig);
+    const db= getDatabase(app);
+    console.log(db)
+    const userProfile = ref(db, 'userProfile/' + viewUser);
+    console.log(userProfile)
+    var details = []
+
+    get(userProfile).then((snapshot) => {
+    
+        const datal = snapshot.val()
+   
+      const vm1 = Vue.createApp({
+          data() {
+              return {
+                  profilepic: "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg",
+                  username: viewUser,
+                  firstname: datal.firstname,
+                  surname: datal.surname,
+                  mobilenum: datal.mobilenum,
+                  email: datal.email,
+                  country: datal.country,
+                  state: datal.state,
+                  places: datal.places,
+                  description: datal.description,
+ 
+              };
+          },
+          
+      }).mount('#profile');
+   
+    }); 
+    
+
+  
+  </script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</html>
