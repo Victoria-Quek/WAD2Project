@@ -46,7 +46,7 @@ html {
   justify-content: center;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 99;
 }
 
 .logo {
@@ -88,7 +88,7 @@ ul.menu {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  /* overflow: hidden; */
+  overflow: hidden;
   width: 100%;
   height: 100vh;
   text-align: center;
@@ -127,7 +127,7 @@ ul.menu {
 .banner-heading h1 {
   font-size: 100px;
   font-weight: normal;
-  color: white;
+  color: #fff;
   font-family: Satisfy;
 }
 
@@ -204,10 +204,10 @@ ul.menu {
 }
 
 .places-text h2 {
-  font-family: Barlow;
-  font-weight: bold;
+  font-family: Barlow condensed;
+  /* font-weight: bold; */
   font-size: 55px;
-  color: #191d34;
+  color: #14425f;
   letter-spacing: 1px;
 }
 
@@ -295,144 +295,7 @@ ul.menu {
   transform: scale(1.1);
 }
 
-/*=========================About Us=========================*/
-.about {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-  padding: 150px;
-}
 
-.about-img {
-  flex: 1;
-}
-
-.about-img img {
-  width: 500px;
-  height: 700px;
-  box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.3);
-}
-
-.about-text {
-  flex: 1;
-  /*width: 100px;*/
-  display: flex;
-  flex-flow: column wrap;
-}
-
-.about-text small,
-.about-text p,
-.about-text input,
-.about-text a {
-  flex: 1;
-  font-family: Roboto;
-}
-
-.about-text small {
-  color: #ffc342;
-  font-size: 18px;
-}
-
-.about-text h2 {
-  flex: 1;
-  font-family: Barlow Condensed;
-  font-size: 60px;
-  color: #191d34;
-  width: 450px;
-}
-
-.about-text label {
-  padding-bottom: 10px;
-  color: #506172;
-  font-weight: bolder;
-  font-family: Roboto;
-  letter-spacing: 1px;
-}
-
-.about-text p {
-  width: 500px;
-  line-height: 30px;
-  color: #506172;
-  font-weight: bolder;
-  padding: 50px 0;
-}
-
-.about-text a {
-  background-color: #fff;
-  border: 2px solid #014b85;
-  text-decoration: none;
-  border-radius: 5px;
-  width: 180px;
-  padding: 20px;
-  text-align: center;
-  margin-top: 50px;
-  color: #014b85;
-  font-weight: bolder;
-  font-size: 14px;
-}
-
-.about-text a:hover {
-  background-color: #014b85;
-  color: #fff;
-}
-
-/*===============Footer===================*/
-.footer {
-  background-image: url("https://res.cloudinary.com/dxssqb6l8/image/upload/v1605293781/pine-tree_mq2sgp.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100%;
-  height: 670px;
-  position: relative;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer::before {
-  position: absolute;
-  content: "";
-  display: block;
-  background-color: rgba(0, 0, 36, 0.8);
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.footer .links {
-  position: relative;
-  color: #fff;
-  flex: 1;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.links ul {
-  list-style-type: none;
-}
-
-.links h3 {
-  font-family: Barlow Condensed;
-  font-weight: normal;
-  font-size: 23px;
-  margin-bottom: 15px;
-}
-
-.links li {
-  font-family: Roboto;
-  cursor: pointer;
-  padding: 15px 0;
-}
-
-.links li:hover {
-  color: #ffa801;
-}
 
 /*==========================Responsive=============================*/
 @media all and (max-width: 1259px) {
@@ -577,7 +440,7 @@ ul.menu {
 }
 
 @media all and (max-width: 942px) {
-  /* .nav-bar {
+  .nav-bar {
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
@@ -604,13 +467,8 @@ ul.menu {
     flex: 1;
     margin-bottom: 5px;
     font-size: 14px;
-  } */
+  }
 
-  
-
-  /* .places-text {
-    margin-top: 200px;
-  } */
 }
 
 /* @media all and (max-width: 928px) {
@@ -651,7 +509,7 @@ ul.menu {
 @media all and (max-width: 768px) {
   .cards {
     display: grid;
-    grid-template-columns: repeat(1, 2fr);
+    grid-template-columns: repeat(1, 1fr);
     /* grid-template-rows: repeat(6, 1fr); */
     grid-gap: 20px;
   }
@@ -661,10 +519,13 @@ ul.menu {
     height: 600px;
     margin: auto;
   }
-
+  #address_review{
+    font-size: 12px;
+  }
   .cards .text {
     padding: 5px;
     font-family: Barlow Condensed;
+    
   }
 }
 
@@ -787,3 +648,33 @@ ul.menu {
   }
 }
 
+@media all and (max-width: 942px) {
+  .nav-bar {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    position: static;
+  }
+
+  .logo {
+    flex: 1;
+    font-size: 30px;
+    margin: 10px auto;
+    font-family: Montserrat;
+    color: black;
+  }
+
+  .nav-bar ul {
+    display: none;
+  }
+
+  .nav-bar ul li {
+    flex: 1;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+}

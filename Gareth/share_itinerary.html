@@ -15,7 +15,8 @@
 
     <!-- Your Firebase configuration script -->
     <!-- <script type="module" src="testingfb.js"></script> -->
-
+    <link rel="logout" href="../logout.js" />
+    <link rel="security" href="../sercurity.js" />
     <script type="module" src="script.js"></script>
 
 
@@ -73,7 +74,8 @@
 
         .form-label {
             color: white;
-
+            padding: auto;
+            position: relative;
         }
 
         .hidden-input {
@@ -84,6 +86,7 @@
         #address_review {
             font-family: Roboto; 
         }
+        
     </style>
 
 </head>
@@ -93,37 +96,68 @@
     <body>
 
         <!--===========Nav Bar=================-->
-        <section class="nav-bar">
-            <div class="logo">EcoWanderers</div>
-            <ul class="menu">
-                <li><a href="wad2_index.html">Hotels</a></li>
-                <li><a href="itinerary_page.html">Itinerary</a></li>
-                <li><a href="#">Chats</a></li>
-                <li><a href="#">Profile</a></li>
-            </ul>
-            </div>
+        <!-- <section class="nav-bar"> -->
+            <!--===========Nav Bar=================-->
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
+            <div class="container-fluid"> 
+                <!-- APP name --> 
+                <a class="navbar-brand logo" href="wad2_index.html">🌍 EcoWanderers</a> 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarSupportedContent"> 
+                    <span class="navbar-toggler-icon"></span> 
+                </button> 
+     
+                <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+                    
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links"> 
+     
+                        <!-- li --> 
+                        <li class="nav-item">
+                            <a class="nav-link" href="../wad2_index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../Chatbot.html">Chatbot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../travelplanner1.html">Calculator</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../newProfile.html">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logOut()">Logout</a>
+                        </li>
+                    </ul> 
+     
+                    
+                </div> 
+            </div> 
+        </nav>
 
-        </section>
+        <!-- </section> -->
         <form id="create_post" @submit.prevent="onSubmit">
             <!--===============Create================-->
-            <section>
+            <section style="margin-top: 200px;">
                 <div id="app" class="container-fluid rounded-4 w-75 my-5"
-                    style="background-color: rgba(95, 168, 95, 0.95);">
+                    style="background-color: #14425f;">
                     <div class=" d-flex pt-5 ps-5 pe-5 mb-3">
                         <span id="for_back" class="col d-flex justify-content-start">
 
-                            <button @click="onBack()" type="button" class=" d-none btn  btn-warning text-dark"
+                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #f2d2a9; color: #14425f;"
                                 id="back_page1" >Back</button>
-                            <button @click="onBack()" type="button" class=" d-none btn  btn-warning text-dark"
+                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #f2d2a9; color: #14425f;"
                                 id="back_page2">Back</button>
                         </span>
                         <h2 class="create_post heading text-center col text-white">Create a Post</h2>
                         <!--=================== Next ======================== -->
 
                         <span id="for_next" class="col d-flex justify-content-end">
-                            <button @click="onNext_Page()" type="button" class="d-inline btn btn-warning text-dark"
+                            <button @click="onNext_Page()" type="button" class="d-inline btn" style="background-color: #f2d2a9; color: #14425f;"
                                 id="page1_next">Next</button>
-                            <button @click="onSubmit()" type="button" class="d-none btn btn-warning text-dark"
+                            <button @click="onSubmit()" type="button" class="d-none btn" style="background-color: #f2d2a9; color: #14425f;"
                                 id="post">Post</button>
 
                         </span>
@@ -179,7 +213,7 @@
                     <div id="attraction_page" class="d-none">
                         <div id="attraction_section">
 
-                            <div id="map" class="border border-3 border-warning mb-3"></div>
+                            <div id="map" class="border border-3 border-white mb-3"></div>
                             <div id="attraction_index0">
                                 <!--=================== Location ======================== -->
                                 <div class=" ms-auto me-auto" style="width: 90%;">
@@ -197,7 +231,7 @@
                                             placeholder="Click on [Check] to check Attraction's Location">
 
                                         <button type="button" onclick="getLoc(0)"
-                                            class="btn btn-warning z-0">Check</button>
+                                            class="btn z-0" style="background-color: #f2d2a9; color: #14425f;">Check</button>
                                         <!-- store loc, how to show all properly -->
 
                                     </div>
@@ -247,11 +281,11 @@
                         <!--=================== Buttons ======================== -->
                         <div class="d-flex justify-content-between px-5 pb-5 mt-5 mb-5" style="width: 100%;">
                             <!-- =================== ADD ======================== -->
-                            <button @click="addAttraction" type="button" class="btn  btn-warning text-dark m-2"
+                            <button @click="addAttraction" type="button" class="btn m-2" style="background-color: #f2d2a9; color: #14425f;"
                                 id="add_location">Add Attraction</button>
                             
                             <!-- =================== Preview Button ======================== -->
-                            <button @click="previewGenerator" type="button" class="btn  btn-warning text-dark m-2"
+                            <button @click="previewGenerator" type="button" class="btn m-2" style="background-color: #f2d2a9; color: #14425f;"
                                 id="preview_button">Show Preview</button>
                         </div>
                     </div>
@@ -325,9 +359,10 @@
                                 document.getElementById("page1").className = "d-none";
                                 document.getElementById("attraction_page").className = "d-inline";
                                 // apply back button
-                                document.getElementById("back_page1").className = "d-inline btn  btn-warning text-dark";
+                                document.getElementById("back_page1").className = "d-inline btn";
+                                document.getElementById("back_page1").style = "background-color: #f2d2a9; color: #14425f;";
                                 // change next button 
-                                document.getElementById("page1_next").className = "d-none btn  btn-warning text-dark";
+                                document.getElementById("page1_next").className = "d-none btn";
                                 // document.getElementById("page2_next").className = "d-inline btn  btn-warning text-dark";
 
                                 //  event listener for the attraction0
@@ -361,9 +396,10 @@
                             document.getElementById("page1").className = "d-inline";
                             document.getElementById("attraction_page").className = "d-none";
                             // remove back button
-                            document.getElementById("back_page1").className = "d-none btn  btn-warning text-dark";
+                            document.getElementById("back_page1").className = "d-none btn";
                             // change next button
-                            document.getElementById("page1_next").className = "d-inline btn  btn-warning text-dark";
+                            document.getElementById("page1_next").className = "d-inline btn";
+                            document.getElementById("page1_next").style = "background-color: #f2d2a9; color: #14425f;";
                             // document.getElementById("page2_next").className = "d-none btn  btn-warning text-dark";
                         }
 
@@ -374,11 +410,12 @@
                             document.getElementById("preview_section").className = "d-none";
 
                             //change back button
-                            document.getElementById("back_page2").className = "d-none btn  btn-warning text-dark";
-                            document.getElementById("back_page1").className = "d-inline btn  btn-warning text-dark";
+                            document.getElementById("back_page2").className = "d-none btn  ";
+                            document.getElementById("back_page1").className = "d-inline btn  ";
+                            document.getElementById("back_page1").style = "background-color: #f2d2a9; color: #14425f;";
 
                             //change next button
-                            document.getElementById("post").className = "d-none btn  btn-warning text-dark";
+                            document.getElementById("post").className = "d-none btn ";
                             // document.getElementById("page2_next").className = "d-inline btn  btn-warning text-dark";
 
 
@@ -477,7 +514,8 @@
                             }
                         }
                         if (this.check_page2) {
-                            document.getElementById("post").className = "d-inline btn  btn-warning text-dark";
+                            document.getElementById("post").className = "d-inline btn";
+                            document.getElementById("post").style = "background-color: #f2d2a9; color: #14425f;";
                             document.getElementById("attraction_page").className = "d-none";
                             document.getElementById("preview_section").className = 'd-inline';
                             // reset the preview section to empty incase of changes
@@ -518,12 +556,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="text">
+                                            <div class="text m-1">
                                                 
                                                 
                                                 <h2 id="location_review">${name}</h2>
                                                 <p></p>
-                                                <small id="address_review">${address}</small>
+                                                <p id="address_review">${address}</p>
                                             </div>
                                         </div>`
 
@@ -656,7 +694,7 @@
                                     <hr>
                                     <div class=" ms-auto me-auto" style="width: 90%;">
                                         <div class="d-flex container">
-                                            <label for="attraction_location${i}" class="col-12 form-label ">Attraction Location<span class="text-danger">*&nbsp; &nbsp;</span>
+                                            <label for="attraction_location${i}" class="col-12 form-label ">Attraction Name<span class="text-danger">*&nbsp; &nbsp;</span>
                                                 <span style="font-size:70%;" id="loc_err${i}"></span>
                                                
                                             </label> 
@@ -666,7 +704,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="attraction_location${i}" placeholder="Click on [Check] to check Attraction's Location">
                                             
-                                            <button type="button" onclick="getLoc(${i})" class="btn btn-warning z-0 ">Check</button>
+                                            <button type="button" onclick="getLoc(${i})" class="btn z-0 " style = "background-color: #f2d2a9; color: #14425f;">Check</button>
                                             <!-- store loc, how to show all properly -->
                                            
                                         </div>
@@ -780,6 +818,7 @@
 
 
                     async onSubmit() {
+                        // testing by gareth
                         let personName = '';
                         if(sessionStorage.getItem("name")){
                             personName = sessionStorage.getItem("name");
@@ -796,6 +835,8 @@
                         let lat = "lat";
                         let lng = "lng";
                         let images = "images";
+                        let comments = "comments";
+                        let likes = "likes";
 
                         var i= this.attraction_count;
                         for (let j=0; j<=i; j++){
@@ -835,6 +876,8 @@
                         this.final_obj.description = this.post_description.trim();
                         this.final_obj.tags = this.post_tags;
                         this.final_obj.attractions = this.stored_attractions;
+                        this.final_obj.comments = [];
+                        this.final_obj.likes = [];
 
                         // Store the final object in Firebase Database
                         const db = firebase.firestore();
@@ -845,7 +888,7 @@
                             .catch((error) => {
                                 console.error("Error adding document: ", error);
                             });
-                        
+                        window.location.href = "itinerary_page.html"
                     }
                 }
             })

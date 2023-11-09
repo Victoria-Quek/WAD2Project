@@ -17,20 +17,21 @@
     <script type="module" src="script.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
 
-
+    <script rel="logout" href="../logout.js"></script>
+    <script rel="security" href="../sercurity.js"></script>
     <link rel="stylesheet" href="style.css" />
     <title>Itinerary</title>
     <style>
-        
-        #tag_filter_input{
+        #tag_filter_input {
             width: 100%;
             margin: 0;
-            
-            
+
+
             /* position:absolute ; */
         }
 
-        input:focus, #tag_filter_input:focus {
+        input:focus,
+        #tag_filter_input:focus {
             outline: 3px solid #ddd;
         }
 
@@ -45,14 +46,14 @@
         .dropdown_menu_for_TAG_filter {
             display: none;
             position: absolute;
-            left:0;
+            left: 0;
             top: 100%;
             /* Changed from max-height and overflow-y */
             background-color: #f6f6f6;
             border: 1px solid #ddd;
             width: 100%;
             box-sizing: border-box;
-            
+
             /* z-index: 1; */
             max-height: 100px;
             overflow: auto;
@@ -79,73 +80,77 @@
         .dropdown label:hover {
             background-color: #ddd;
         }
+
         h2.card-title:hover,
         div.card_username:hover {
             cursor: pointer;
-            color: goldenrod;
+            color: #4cafad;
         }
+
+       
     </style>
 </head>
 
 <body>
 
 
+
     <!--===========Nav Bar=================-->
+    <!-- <section class="nav-bar"> -->
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
-    <!-- <section class="nav-bar"> -->
-        <a class="navbar-brand logo" href="../wad2_index.html">🌍 EcoWanderers</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-            data-bs-target="#navbarSupportedContent"> 
-            <span class="navbar-toggler-icon"></span> 
-        </button> 
- 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- APP name -->
+            <a class="navbar-brand logo" href="#">🌍 EcoWanderers</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links">
-                <li class="nav-item">
-                    <a class="nav-link" href="../wad2_index.html">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../Chatbot.html">Chatbot</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../travelplanner1.html">Calculator</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../newProfile.html">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="logOut()">Logout</a>
-                </li>
-            </ul>
-            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links">
+
+                    <!-- li -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="../wad2_index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Chatbot.html">Chatbot</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../travelplanner1.html">Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../newProfile.html">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logOut()">Logout</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <!-- </section> -->
     </nav>
+
+    <!-- </section> -->
     <!--===============Banner================-->
-    <section class="banner">
+    <section class="banner" style="margin-top: 115px;">
         <div class="banner-text-item">
             <div class="banner-heading">
                 <h1>Discover the adventures that await you!</h1>
             </div>
             <form class="form">
-                <input id="searchby_title" type="text" name="title" placeholder="Enter Itinerary Title" aria-label="Search by title">
-                <input id="searchby_user" type="text" name="title" placeholder="Search by User" aria-label="Search by username">
-                
+                <input id="searchby_title" type="text" name="title" placeholder="Enter Itinerary Title"
+                    aria-label="Search by title">
+                <input id="searchby_user" type="text" name="title" placeholder="Search by User"
+                    aria-label="Search by username">
+
                 <div class="dropdown dropdown-content">
                     <input type="text" placeholder="Search by Tag" id="tag_filter_input" onkeyup="filterFunction()">
                     <div id="myDropdown" class=" dropdown_menu_for_TAG_filter">
-                        <!-- <label><input type="checkbox" class="tag_checkbox" value="base" />Base</label>
-                        <label><input type="checkbox" class="tag_checkbox" value="blog" />Blog</label>
-                        <label><input type="checkbox" class="tag_checkbox" value="contact" />Contact</label>
-                        <label><input type="checkbox" class="tag_checkbox" value="custom" />Custom</label>
-                        <label><input type="checkbox" class="tag_checkbox" value="support" />Support</label>
-                        <label><input type="checkbox" class="tag_checkbox" value="tools" />Tools</label> -->
+
                     </div>
                 </div>
                 <button onclick="filterPosts()" class="btn" type="button">Search</button>
@@ -157,13 +162,13 @@
     <!--==============Places===================-->
     <section class="places">
         <div class="places-text mt-3 mt-lg-4 mt-xl-5">
-            <h2>Itinerary</h2>
+            <h2 id="Itinerary_section">Itinerary</h2>
             <div class="container d-flex jusitiy-content-center col-5 col-lg-4 col-xxl-3">
-                <select class="form-control text-white text-center bg-success ">
-                    <option>Most Popular</option>
-                    <option>Most Recent</option>
-
-                </select>
+                <button class="btn text-center w-100" style="background-color:#4cafad;">
+                    <a href="share_itinerary.html"  style="text-decoration:none; color: white;"> 
+                        Create Post
+                    </a>
+                </button>
             </div>
         </div>
 
@@ -179,28 +184,57 @@
 </html>
 
 <script>
-    var posts = [];
-    var allusers = [];
+    var posts = []; // holds data from firebase
+
     var alltags = []; // have repeated tags
     var list_of_all_tags = []; // cleaned data
-    var list_of_selected_tags = []; // from input
-    var alltitles = [];
 
-    window.onload = getData;
-    function getData() {
+    var temp_posts = [];
+
+
+    // window.onload = getData;
+
+    window.addEventListener('load', function () {
+        // getData();
+        var print_all =true;
+
+        var tagFromDetailsPage = localStorage.getItem("tag_from_Detailspage");
+        console.log("tagFromDetailsPage: ", tagFromDetailsPage);
+        if (tagFromDetailsPage !== null) {
+            
+            // handleTagClick(tagFromDetailsPage); // Call the function with the tag
+            // localStorage.removeItem("tag_from_Detailspage"); // Optional: Clear the tag from localStorage
+            getData(!print_all);
+        }else{
+            
+            getData(print_all);
+            
+        }
+
+    })
+    function getData(print_all) {
         console.log("hello")
-        const db = firebase.firestore();
-        // var posts = [];
+        var db = firebase.firestore();
+        console.log("db: ", db);
+
         db.collection("all_posts").get().then((querySnapshot) => {
-            // var posts = [];
+
             querySnapshot.forEach(doc => {
                 posts.push({ id: doc.id, ...doc.data() })
             });
             console.log(posts);
-            createItineraryPosts(posts);
+            temp_posts = posts.slice();
+            if (print_all) {
+                createItineraryPosts(posts);
+            }else{
+                handleTagClick(localStorage.getItem("tag_from_Detailspage"));
+                localStorage.removeItem("tag_from_Detailspage");
+            }
+            
         });
     }
     function createItineraryPosts(posts) {
+
 
         for (post of posts) {
             console.log(post);
@@ -212,12 +246,11 @@
             let attractions = post.attractions;
             console.log("attractions: ", attractions);
 
-            allusers.push(username); 
-            alltitles.push(title);
             alltags.push(tags);
             populate_tag_filter_dropdown(alltags);
 
             let post_iti = document.getElementById("post_iti");
+
             let store_cards = document.getElementById("store_cards");
 
             let card = document.createElement("div");
@@ -240,17 +273,32 @@
             let card_text = document.createElement("p");
             card_text.setAttribute("class", "card-text");
 
-            for (tag of tags) {
+            tags.forEach((tag) => {
                 let tag_span = document.createElement("span");
-                tag_span.setAttribute("class", "badge bg-success text-white m-1");
-                tag_span.setAttribute("style", "font-family: Roboto;")
+                tag_span.setAttribute("class", "tag_badge badge m-1");
+
+                tag_span.setAttribute("style", "font-family: Roboto; background-color: #4cafad; colour: #14425f")
                 tag_span.innerHTML = "# " + tag;
+
+                tag_span.addEventListener('click', (function (tagCopy) {
+                    return function () {
+                        handleTagClick(tagCopy);
+                    };
+                })(tag));
+
                 card_text.appendChild(tag_span);
-            }
+            });
 
             let card_username = document.createElement("div");
             card_username.setAttribute("class", "card_username card-text mt-3");
-            card_username.setAttribute("style", "font-family: Barlow ;")
+            card_username.setAttribute("style", "font-family: Barlow ;");
+            card_username.addEventListener('click', function() {
+                // Store the username in localStorage
+                localStorage.setItem("postUsername", username);
+
+                // Navigate to the next HTML page
+                window.location.href = "../newProfile.html";
+            });
             card_username.innerHTML = username;
 
             let card_zoom = document.createElement("div");
@@ -346,11 +394,67 @@
 
         }
     }
+    function handleTagClick(tag) {
+        console.log('Tag clicked:', tag);
+
+        var filtered_posts = posts;
+        console.log("at first filtered_posts: ", filtered_posts);
+        filtered_posts = filtered_posts.filter(post =>
+            post.tags.map(t => t.toLowerCase()).includes(tag.toLowerCase())
+        );
+
+        document.getElementById("store_cards").innerHTML = "";
+        console.log("filtered_posts: ", filtered_posts);
+        createItineraryPosts(filtered_posts);
+
+        document.getElementById("Itinerary_section").scrollIntoView();
+        filtered_posts = posts;
+    }
 
     function filterPosts() {
-        
+        var tags_selected = selectedItems; // this is a list
+        var title_selected = document.getElementById("searchby_title").value; // this is a string
+        var user_selected = document.getElementById("searchby_user").value; // this is a string
+        var filtered_posts = posts; // Start with all posts
 
+        // if (title_selected.trim() === "" && user_selected.trim() === "" && tags_selected.length === 0) {
+        //     // If no filter is provided, you might want to show all posts or do nothing
+        //     return;
+        // }
+        if (title_selected === '' && user_selected === '') {
+            createItineraryPosts(posts);
+        }
+        // Filter by title if a title is provided
+        if (title_selected.trim() !== "") {
+            filtered_posts = filtered_posts.filter(post =>
+                post.title.replace(/\s+/g, "").toLowerCase().includes(title_selected.replace(/\s+/g, "").toLowerCase())
+            );
+        }
+        console.log("'title' posts: ", filtered_posts);
+
+        // Further filter by username if a username is provided
+        if (user_selected.trim() !== "") {
+            filtered_posts = filtered_posts.filter(post =>
+                post.username.replace(/\s+/g, "").toLowerCase().includes(user_selected.replace(/\s+/g, "").toLowerCase())
+            );
+        }
+        console.log("'user' posts: ", filtered_posts);
+
+        // Finally, filter by tags if tags are selected
+        if (tags_selected.length !== 0) {
+            filtered_posts = filtered_posts.filter(post =>
+                post.tags.some(tag => tags_selected.includes(tag.toLowerCase()))
+            );
+        }
+        console.log("'tag' posts: ", filtered_posts);
+
+        document.getElementById("store_cards").innerHTML = "";
+        createItineraryPosts(filtered_posts);
+
+        document.getElementById("Itinerary_section").scrollIntoView();
+        filtered_posts = posts;
     }
+
 
     function iti_details(event, posts) {
         var title_ele = event.target;
@@ -378,19 +482,27 @@
 <script>
     var selectedItems = [];
     document.addEventListener('DOMContentLoaded', function () {
-        var checkboxes = document.querySelectorAll('.tag_checkbox');
-        checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
+        var dropdown = document.getElementById('myDropdown');
 
-                if (this.checked && !selectedItems.includes(this.value)) {
-                    selectedItems.push(this.value);
-                } else if (!this.checked && selectedItems.includes(this.value)) {
-                    selectedItems = selectedItems.filter(item => item !== this.value);
+        // Delegate the event to the dropdown container
+        dropdown.addEventListener('change', function (event) {
+            var target = event.target;
+            if (target.classList.contains('tag_checkbox')) {
+                // Event delegation allows you to capture events from dynamically added elements
+                var value = target.value;
+
+                if (target.checked && !selectedItems.includes(value)) {
+                    selectedItems.push(value);
+                } else if (!target.checked && selectedItems.includes(value)) {
+                    selectedItems = selectedItems.filter(item => item !== value);
                 }
                 console.log(selectedItems);
-            });
+            }
         });
     });
+
+    // ...rest of your code
+
 
     function filterFunction() {
         var input, filter, dropdown, labels, i, txtValue;
@@ -423,11 +535,12 @@
             dropdown.style.display = selectedItems.length > 0 ? "block" : "none";
         }
     }
-    function populate_tag_filter_dropdown(alltags){
+    function populate_tag_filter_dropdown(alltags) {
         var dropdown = document.getElementById("myDropdown");
-        for (var post_tag of alltags){
-            for(var tag of post_tag){
-                if (!list_of_all_tags.includes(tag.toLowerCase())){
+        for (var post_tag of alltags) {
+            for (var tag of post_tag) {
+                if (!list_of_all_tags.includes(tag.toLowerCase())) {
+                    // remove duplicates
                     list_of_all_tags.push(tag.toLowerCase());
                     var label = document.createElement("label");
                     var checkbox = document.createElement("input");
