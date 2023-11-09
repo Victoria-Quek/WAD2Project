@@ -12,7 +12,6 @@
         <script src="security.js"></script>
         <script src="logout.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/772b8d0d96.js" crossorigin="anonymous"></script>
 
         <link rel="stylesheet" href="style.css" />
@@ -25,7 +24,9 @@
             /* The width is the width of the web page */
             margin-left: auto;
             margin-right: auto;
-		
+            /* border-style: solid;
+            border-color: #14425f;
+            border-width: 3px; */
         }
 
         /* Optional: Makes the sample page fill the window. */
@@ -34,7 +35,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-	    background-image: url(https://wallpapers.com/images/hd/telegram-cip-art-green-background-6z07z4i6i5p0dfrs.jpg);
+            background-image: url(https://wallpapers.com/images/hd/telegram-cip-art-green-background-6z07z4i6i5p0dfrs.jpg);
         }
         
         p {
@@ -49,13 +50,13 @@
             background:white;
             border:none;
             border-bottom:1px solid #434a52;
-            border-radius:0;
+            border-radius:5px;
             box-shadow:none;
             outline:none;
         }
         label {
             padding-bottom: 5px;
-	    color: white;
+            color: white;
         }
 
     </style> 
@@ -77,9 +78,9 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="links"> 
          
                             <!-- li --> 
-			    <li class="nav-item"> 
+                            <li class="nav-item"> 
                                 <a class="nav-link" href="wad2_index.html">Home</a> 
-                            </li>	
+                            </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" href="Gareth/itinerary_page.html">Itinerary</a> 
                             </li> 
@@ -123,7 +124,6 @@
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
             directionsRenderer.setMap(map);
             console.log(directionsRenderer)
-
             }
 
     </script>
@@ -133,6 +133,7 @@
         async defer></script>
     <!-- Form (Styling to be changed)-->
     <div>
+        <br>
         <p class="lead text-center" style="font-weight: bold;">Get Distance, Time taken & CO2 emissions!</p>
         
         <form>
@@ -301,9 +302,9 @@
                                 }
                             }
                             //Generate Results
-                            document.getElementById("details").innerHTML = `<div class = "col-lg-4 col-md-4 col-sm-12"><i class="fa-solid fa-shoe-prints"></i> ` + res[0] + `</div>` +
-                                                                        `<div class = "col-lg-4 col-md-4 col-sm-12"><i class="fa-regular fa-clock"></i> ` + res[1] + `</div>` + 
-                                                                        `<div class = "col-lg-4 col-md-4 col-sm-12"><i class='fas fa-wind'></i> ` + co2 + "kg CO2</div>" +"<hr>"
+                            document.getElementById("details").innerHTML = `<div style = "color:white" class = "col-lg-4 col-md-4 col-sm-12"><i class="fa-solid fa-shoe-prints"></i> ` + res[0] + `</div>` +
+                                                                        `<div style = "color:white" class = "col-lg-4 col-md-4 col-sm-12"><i class="fa-regular fa-clock"></i> ` + res[1] + `</div>` + 
+                                                                        `<div style = "color:white" class = "col-lg-4 col-md-4 col-sm-12"><i class='fas fa-wind'></i> ` + co2 + "kg CO2</div>" +"<hr>"
                             calcRoute()
                         }
                         
