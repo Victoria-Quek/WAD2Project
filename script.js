@@ -1,5 +1,5 @@
 // Replace with your GPT-3.5 API key
-const apiKey = '';
+const apiKey = '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';
 
 document.getElementById('generateButton').addEventListener('click', generateItinerary);
 
