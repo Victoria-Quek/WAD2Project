@@ -19,6 +19,40 @@
    
     
     /* Body / Profile */
+
+    .landscape_buttons{
+      display: inline;
+  
+    }
+    .portait_buttons{
+      display: none;
+    }
+
+    img{
+      width: 250px;
+    }
+    @media all and (max-width: 1200px){
+      img{
+        width:200px;
+      }
+    }
+    @media all and (max-width: 992px) {
+      img{
+        width: 180px
+      }
+    }
+    @media all and (max-width: 767px){
+      img{
+        width:300px
+      }
+      .landscape_buttons{
+        display:none;
+      }
+      .portait_buttons{
+        display:inline;
+      }
+    }
+    
     body{
       background-image: url("https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2017/11/travel-photography-tips-photojaanic-7.jpg");
     }
@@ -64,9 +98,7 @@
       border: solid 1px #2e8d3d;
     }
 
-    img{
-      width: 250px;
-    }
+    
     
   </style>
 
@@ -90,7 +122,7 @@
                         <a class="nav-link" href="wad2_index.html">Home</a> 
                     </li> 
                     <li class="nav-item"> 
-                        <a class="nav-link" href="#">Itinerary</a> 
+                        <a class="nav-link" href="itinerary_page.html">Itinerary</a> 
                     </li> 
                     <li class="nav-item"> 
                         <a class="nav-link" href="Chatbot.html">Chatbot</a> 
@@ -178,8 +210,8 @@
   
                   </div>
                   
-                  <div class="mt-5 text-center">
-                      <button v-if="!editing" class="btn btn-primary submit-button" type="button" @click="toEdit">Edit</button>
+                  <div id="landscape_button" class="mt-5 text-center landscape_buttons">
+                      <button v-if="!editing" class="align-self-end btn btn-primary submit-button" type="button" @click="toEdit">Edit</button>
                       <button v-else class="btn btn-primary submit-button" type="button" @click="update()">Save</button>
                   </div>
               </div>
@@ -188,7 +220,7 @@
         
           <div class="col-md-4">
               <div class="p-3 py-5">
-                  <div class="d-flex justify-content-between align-items-center mb-3"><h4>Experience</h4></div>
+                  <div class="d-flex justify-content-between align-items-center mb-3 order-md-2 order-1"><h4>Experience</h4></div>
   
                   <div class="col-md-12">
                       <label class="labels">Travelled:</label>
@@ -204,7 +236,13 @@
   
               </div>
           </div>
+      
+          <div id="portait_buttons"class="mt-5 text-center portait_buttons">
+            <button v-if="!editing" class="align-self-end btn btn-primary submit-button" type="button" @click="toEdit">Edit</button>
+            <button v-else class="btn btn-primary submit-button" type="button" @click="update()">Save</button>
+          </div>
       </div>
+
   </div>
   
   <script type="module">
