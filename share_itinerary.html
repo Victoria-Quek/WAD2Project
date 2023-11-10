@@ -25,33 +25,50 @@
     <title>Itinerary</title>
     <style>
         .loader {
-            border: 20px solid #f2d2a9;
-            border-radius: 50%;
-            border-top: 20px solid #4cafad;
-            width: 250px;
-            height: 250px;
-            -webkit-animation: spin 2s linear infinite; /* Safari */
-            animation: spin 2s linear infinite;
-            z-index: 100;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            
-            
-            
-            
-            }
+            border: 20px solid #4cafad; 
+            border-radius: 50%; 
+            border-top: 20px solid white; 
+            width: 250px; 
+            height: 250px; 
+            /* -webkit-animation: spin 2s linear infinite; Safari */ 
+            animation: spin 2s linear infinite; 
+            z-index: 100; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%); 
+        }
 
-            /* Safari */
-            @-webkit-keyframes spin {
+        /* Safari */
+        @-webkit-keyframes spin {
             0% { -webkit-transform: rotate(0deg); }
             100% { -webkit-transform: rotate(360deg); }
-            }
+        }
 
-            @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-            }
+        @keyframes spin { 
+            0% { 
+                transform: translate(-50%) rotate(0deg); 
+                /* Start the spin from 0 degrees */ 
+            } 
+            100% { 
+                transform: translate(-50%) rotate(360deg); 
+                /* End the spin at 360 degrees */ 
+            } 
+        }
+
+        @media all and (max-width: 1200px){ 
+            .loader { 
+                width: 200px; 
+                height: 200px; 
+            } 
+        } 
+        @media all and (max-width: 990px){ 
+            .loader { 
+                width: 150px; 
+                height: 150px; 
+            } 
+        }
+        
         #map {
             height: 400px;
             /* The height is 400 pixels */
@@ -124,8 +141,6 @@
     <body>
 
         <!--===========Nav Bar=================-->
-        <!-- <section class="nav-bar"> -->
-            <!--===========Nav Bar=================-->
         <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
             <div class="container-fluid"> 
                 <!-- APP name --> 
@@ -144,7 +159,7 @@
                             <a class="nav-link" href="wad2_index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                            <a class="nav-link active" href="itinerary_page.html">Posts</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Chatbot.html">Chatbot</a>
@@ -165,7 +180,6 @@
             </div> 
         </nav>
 
-        <!-- </section> -->
         <form id="create_post" @submit.prevent="onSubmit">
             <!--===============Create================-->
             <section style="margin-top: 200px;">
@@ -174,18 +188,18 @@
                     <div class=" d-flex pt-5 ps-5 pe-5 mb-3">
                         <span id="for_back" class="col d-flex justify-content-start">
 
-                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #4cafad; color: white;"
                                 id="back_page1" >Back</button>
-                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="onBack()" type="button" class=" d-none btn" style="background-color: #4cafad; color: white;"
                                 id="back_page2">Back</button>
                         </span>
                         <h2 class="create_post heading text-center col text-white">Create a Post</h2>
                         <!--=================== Next ======================== -->
 
                         <span id="for_next" class="col d-flex justify-content-end">
-                            <button @click="onNext_Page()" type="button" class="d-inline btn" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="onNext_Page()" type="button" class="d-inline btn" style="background-color: #4cafad; color: white;"
                                 id="page1_next">Next</button>
-                            <button @click="onSubmit()" type="button" class="d-none btn" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="onSubmit()" type="button" class="d-none btn" style="background-color: #4cafad; color: white;"
                                 id="post">Post</button>
 
                         </span>
@@ -260,7 +274,7 @@
                                             placeholder="Click on [Check] to check Attraction's Location">
 
                                         <button type="button" onclick="getLoc(0)"
-                                            class="btn z-0" style="background-color: #f2d2a9; color: #14425f;">Check</button>
+                                            class="btn z-0" style="background-color: #4cafad; color: white;">Check</button>
                                         <!-- store loc, how to show all properly -->
 
                                     </div>
@@ -289,7 +303,7 @@
                                     </label>
 
                                     <div class="input-group " style="width: 100%;">
-                                        <button type="button" class="btn btn-secondary z-0"
+                                        <button type="button" class="btn z-0" style="background-color: #4cafad; color: white;"
                                             onclick="document.getElementById('attraction_image0').click();">Choose
                                             File</button>
                                         <input type="file" class="form-control hidden-input" id="attraction_image0"
@@ -310,11 +324,11 @@
                         <!--=================== Buttons ======================== -->
                         <div class="d-flex justify-content-between px-5 pb-5 mt-5 mb-5" style="width: 100%;">
                             <!-- =================== ADD ======================== -->
-                            <button @click="addAttraction" type="button" class="btn m-2" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="addAttraction" type="button" class="btn m-2" style="background-color: #4cafad; color: white;"
                                 id="add_location">Add Attraction</button>
                             
                             <!-- =================== Preview Button ======================== -->
-                            <button @click="previewGenerator" type="button" class="btn m-2" style="background-color: #f2d2a9; color: #14425f;"
+                            <button @click="previewGenerator" type="button" class="btn m-2" style="background-color: #4cafad; color: white;"
                                 id="preview_button">Show Preview</button>
                         </div>
                     </div>
@@ -390,7 +404,7 @@
                                 document.getElementById("attraction_page").className = "d-inline";
                                 // apply back button
                                 document.getElementById("back_page1").className = "d-inline btn";
-                                document.getElementById("back_page1").style = "background-color: #f2d2a9; color: #14425f;";
+                                document.getElementById("back_page1").style = "background-color: #4cafad; color: white;";
                                 // change next button 
                                 document.getElementById("page1_next").className = "d-none btn";
                                 // document.getElementById("page2_next").className = "d-inline btn  btn-warning text-dark";
@@ -429,7 +443,7 @@
                             document.getElementById("back_page1").className = "d-none btn";
                             // change next button
                             document.getElementById("page1_next").className = "d-inline btn";
-                            document.getElementById("page1_next").style = "background-color: #f2d2a9; color: #14425f;";
+                            document.getElementById("page1_next").style = "background-color: #4cafad; color: white;";
                             // document.getElementById("page2_next").className = "d-none btn  btn-warning text-dark";
                         }
 
@@ -442,7 +456,7 @@
                             //change back button
                             document.getElementById("back_page2").className = "d-none btn  ";
                             document.getElementById("back_page1").className = "d-inline btn  ";
-                            document.getElementById("back_page1").style = "background-color: #f2d2a9; color: #14425f;";
+                            document.getElementById("back_page1").style = "background-color: #4cafad; color: white;";
 
                             //change next button
                             document.getElementById("post").className = "d-none btn ";
@@ -545,7 +559,7 @@
                         }
                         if (this.check_page2) {
                             document.getElementById("post").className = "d-inline btn";
-                            document.getElementById("post").style = "background-color: #f2d2a9; color: #14425f;";
+                            document.getElementById("post").style = "background-color: #4cafad; color: white;";
                             document.getElementById("attraction_page").className = "d-none";
                             document.getElementById("preview_section").className = 'd-inline';
                             // reset the preview section to empty incase of changes
@@ -734,7 +748,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="attraction_location${i}" placeholder="Click on [Check] to check Attraction's Location">
                                             
-                                            <button type="button" onclick="getLoc(${i})" class="btn z-0 " style = "background-color: #f2d2a9; color: #14425f;">Check</button>
+                                            <button type="button" onclick="getLoc(${i})" class="btn z-0 " style = "background-color: #4cafad; color: white;">Check</button>
                                             <!-- store loc, how to show all properly -->
                                            
                                         </div>
@@ -760,7 +774,7 @@
                                             <span style="font-size:70%;" id="image_err${i}"></span>
                                         </label> 
                                         <div class="input-group " style="width: 100%;">
-                                                <button type="button" class="btn btn-secondary z-0 " onclick="document.getElementById('attraction_image${i}').click();">Choose File</button>
+                                                <button type="button" class="btn z-0 " style="background-color: #4cafad; color: white;" onclick="document.getElementById('attraction_image${i}').click();">Choose File</button>
                                                 <input type="file" class="form-control hidden-input" id="attraction_image${i}" accept="image/*" multiple="multiple">
                                                 <input class="form-control h-100 p-2" type="text" id="file_display${i}" disabled readonly>
                                         </div>
@@ -916,6 +930,7 @@
                             .then((docRef) => {
                                 console.log("Document successfully written:", docRef.id);
                                 window.location.href = "itinerary_page.html"
+
                             })
                             .catch((error) => {
                                 console.error("Error adding document: ", error);
