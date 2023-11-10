@@ -41,7 +41,9 @@
             width: 100%;
         }
 
-
+        .tag_badge:hover { 
+            cursor: pointer; 
+        }
 
         .dropdown_menu_for_TAG_filter {
             display: none;
@@ -100,7 +102,7 @@
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
         <div class="container-fluid">
             <!-- APP name -->
-            <a class="navbar-brand logo" href="#">🌍 EcoWanderers</a>
+            <a class="navbar-brand logo" href="wad2_index.html">🌍 EcoWanderers</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -115,7 +117,7 @@
                         <a class="nav-link" href="wad2_index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                        <a class="nav-link active" href="itinerary_page.html">Posts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Chatbot.html">Chatbot</a>
@@ -162,9 +164,9 @@
     <!--==============Places===================-->
     <section class="places">
         <div class="places-text mt-3 mt-lg-4 mt-xl-5">
-            <h2 id="Itinerary_section">Itinerary</h2>
+            <h2 id="Itinerary_section">POSTS</h2>
             <div class="container d-flex jusitiy-content-center col-5 col-lg-4 col-xxl-3">
-                <button class="btn text-center w-100" style="background-color:#4cafad;">
+                <button class="btn text-center w-100" style="background-color:#4cafad;" onclick="window.location.href='share_itinerary.html'">
                     <a href="share_itinerary.html"  style="text-decoration:none; color: white;"> 
                         Create Post
                     </a>
