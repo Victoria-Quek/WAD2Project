@@ -44,4 +44,5 @@ Go to signInSignUp.html, create an account and log in
    preview post and click on 'post' button to post. You can view your own posts under 'profile'.
 7. Click on 'logout' on the navbar and log out after you are done using the website.
 
-
+## Updates
+You can see the other users' posts upon clicking on their username in itinerary and going to their profile page. You can also see your own posts in your own profile page. Colors and sizing of buttons updated.
