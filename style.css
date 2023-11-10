@@ -127,6 +127,7 @@ ul.menu {
   font-weight: normal;
   color: white;
   font-family: satisfy;
+  margin-bottom: 0.2em;
 }
 
 
@@ -334,23 +335,61 @@ p{
 
   .banner-heading h1 {
     font-size: 60px;
+    margin-bottom: 2rem;
   }
 }
 
 @media all and (max-width: 1414px) {
   .banner-text-item .form input {
-    width: 40%;
+    width: 110%;
+    font-size: 17px;
   }
 
   .banner-text-item .form .date {
-    width: 30%;
+    width: 110%;
+    font-size: 17px;
   }
 
   .banner-text-item .form .book {
-    width: 20%;
-    font-size: 14px;
+    width: 110%;
+    font-size: 17px;
   }
 }
+
+@media all and (max-width: 890px) {
+  .banner-text-item .form {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+  }
+
+  .banner-text-item .form input,
+  .banner-text-item .form .date,
+  .banner-text-item .form a {
+    flex: 1;
+    margin-bottom: 5px;
+    font-size: 17px;
+  }
+
+  .banner-text-item .form input,
+  .banner-text-item .form .date,
+  .banner-text-item .form .book {
+    width: 110%;
+    font-size: 17px;
+  }
+
+  .banner-heading h1 {
+    font-size: 50px;
+    margin-bottom: 1rem;
+  }
+
+  .banner .form input{
+    font-size: 17px;
+  }
+}
+
 
 @media all and (max-width: 942px) {
   .nav-bar {
@@ -395,13 +434,6 @@ p{
 
   .places-text {
     margin-top: 200px;
-  }
-}
-
-@media all and (max-width: 928px) {
-  .banner .form input,
-  a {
-    font-size: 12px;
   }
 }
 
