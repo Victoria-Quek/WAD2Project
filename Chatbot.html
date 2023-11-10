@@ -153,7 +153,7 @@
     </div>
     <script>
         // ChatGPT API Key
-        const apiKey = '';
+        const apiKey = ' ';
 
         const chatMessages = document.getElementById('chat-messages');
         const chatInput = document.getElementById('chat-input').value;
@@ -173,14 +173,17 @@
         function generateResponse() {
             const chatInput = document.getElementById('chat-input').value;
             const outputElement = document.getElementById('output');
-            const loading01 = document.getElementById('loading01');
+            var loading01 = document.getElementById('loading01');
 
             // Show the loading text while generating the itinerary
-            loading01.style.display = 'block';
+            if (loading01 && window.getComputedStyle(loading01).display === 'none'){
+                loading01.style.display = 'block';
+            }
+            
             output.style.display = 'block';
 
-            const prompt = `You are a friendly travel assistant who specializes in sustainable travel and you are supposed to answer all travel related questions only, 
-            so please answer the following question with your expertise: ${chatInput} sustainable`;
+            const prompt = `You are a friendly travel assistant who specializes in giving sustainable travelling advice and you are can only answer all travel related questions, 
+            so please answer the following question with your expertise on sustainable travel: ${chatInput}`;
 
             axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions',  {
                 prompt: prompt,
@@ -197,10 +200,6 @@
             })
             .catch((error) => {
                 console.error(error);
-            })
-            .finally(() => {
-                // Hide the loading text when the response is received
-                loading01.style.display = 'none';
             });
 
         }
