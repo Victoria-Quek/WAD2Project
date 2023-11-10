@@ -9,11 +9,17 @@ function generateItinerary() {
     const days = document.getElementById('days').value;
     const outputElement = document.getElementById('output');
     const loadingSkeleton = document.getElementById('loadingSkeleton');
+    const regenerateBtn = document.getElementById('regenerateButton');
+    const inputs = document.getElementById('itiinput');
 
     // Show the loading skeleton while generating the itinerary
     loadingSkeleton.style.display = 'block';
     output.style.display = 'block';
-
+    regenerateBtn.style.display = 'block';
+    inputs.style.display = 'none';
+    
+    document.getElementById("testing_load").scrollIntoView();
+    
     // Construct a prompt that includes user input
     const prompt = `Generate a 🌍 sustainable travel itinerary for a ${days}-day trip to ${location} with a budget of $${budget}.`;
 
@@ -30,6 +36,7 @@ function generateItinerary() {
         const itinerary = response.data.choices[0].text;
         const formattedItinerary = formatItinerary(itinerary);
         outputElement.innerHTML = formattedItinerary;
+        
     })
     .catch((error) => {
         console.error(error);
@@ -37,8 +44,9 @@ function generateItinerary() {
     .finally(() => {
         // Hide the loading skeleton when the response is received
         loadingSkeleton.style.display = 'none';
-    });
 
+    });
+    
 }
 
 function formatItinerary(itinerary) {
