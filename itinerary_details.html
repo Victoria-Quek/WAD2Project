@@ -64,7 +64,6 @@
         color: #14425f;
     }
 
-    #post_description_section,
     .badge {
         cursor: pointer;
     }
@@ -89,7 +88,7 @@
     #username_ofPost:hover,
     #comment_button:hover {
         cursor: pointer;
-        color: #f2d2a9;
+        color: #4cafad;
     }
 </style>
 
@@ -117,7 +116,7 @@
                             <a class="nav-link" href="wad2_index.html">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="itinerary_page.html">Itinerary</a>
+                            <a class="nav-link active" href="itinerary_page.html">Posts</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Chatbot.html">Chatbot</a>
@@ -152,7 +151,7 @@
                     <div>
                         <!-- POST AUTHOR -->
                         <h4 class="text-white d-inline mt-2" style="font-family: Barlow;">by <span id="username_ofPost"
-                                @click=" postUsername(user_name)">{{post_username}}</span></h4>
+                                @click=" postUsername(post_username)">{{post_username}}</span></h4>
                         <hr style="color:white">
 
                         <p class="d-flex justify-content-between">
@@ -176,18 +175,15 @@
 
 
                     <!-- POST DESCRIPTION -->
-                    <div id="post_description_section">
-                        <div v-if="isShortDescription" @click="toggleDescription()">
-                            <!-- Display short description if it's active -->
-                            <p class="my-3 text-white" style="font-family: Roboto">{{ short_description }}</p>
-                            <button class="btn" style="background-color: #f2d2a9; color: #14425f;">Read More</button>
-                        </div>
-                        <div v-else @click="toggleDescription()">
-                            <!-- Display full description if short description is not active -->
-                            <p class="my-3 text-white" style="font-family: Roboto">{{ post_description }}</p>
-                            <button class="btn text-white" style="background-color: #f2d2a9; color: #14425f;">Read
-                                Less</button>
-                        </div>
+                    <p v-if="isShortDescription" class="my-3 text-white" style="font-family: Roboto">{{ short_description }}</p>
+                    <p v-else class="my-3 text-white" style="font-family: Roboto">{{ post_description }}</p>
+                    
+                    <div>
+                        <!-- Display short description if it's active -->
+                        <button v-if="isShortDescription" @click="toggleDescription()" class="btn" style="background-color: #4cafad; color: white;">Read More</button>
+                        
+                        <!-- Display full description if short description is not active -->
+                        <button v-else @click="toggleDescription()" class="btn text-white" style="background-color: #4cafad; color: white;">Read Less</button>
                     </div>
 
                     <!-- POST TAGS -->
@@ -260,7 +256,7 @@
                                 <input type="text" class="form-control" placeholder="Leave a comment..."
                                     v-model="newCommentText">
                                 <button class="btn" type="button" @click="postComment"
-                                    style="background-color: #f2d2a9; color: #14425f;">Post Comment</button>
+                                    style="background-color: #4cafad; color: white;">Post Comment</button>
                             </div>
                             <hr>
                             <!-- Displaying Comments -->
@@ -437,12 +433,13 @@
                                 console.error("Error getting document:", error);
                             });
                     },
-                    postUsername(username) {
-                        // console.log("username", username);
+                    postUsername(username1) {
+                        console.log("username1", username1);
+                        console.log(sessionStorage.getItem('name'))
                         
 
-                        localStorage.setItem("postUsername", username);
-                        if (sessionStorage.getItem("name")==username){
+                        localStorage.setItem("postUsername", username1);
+                        if (sessionStorage.getItem("name")==username1){
                             window.location.href = "newProfile.html";
                         }else{
                         // Navigate to the next HTML page
