@@ -416,14 +416,13 @@ ul.menu {
   }
   #tag_filter_input{
     flex: 1;
-    font-size: 14px;
+    font-size: 17px;
   }
   .banner-text-item .form input,
   .dropdown-content,
-  /* #tag_filter_input, */
   .banner-text-item .form .btn{
     width: 100%;
-    font-size: 14px;
+    font-size: 17px;
   
   }
   .banner-text-item .btn{
