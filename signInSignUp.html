@@ -55,9 +55,9 @@
       <div id="firstButton" class="d-inline col-md-10 mx-auto col-lg-5">
         <form class="p-4 p-md-4 border rounded-3 bg-body-tertiary">
           <!--Sign-in Button -->
-          <button class="w-100 btn btn-lg btn-success mb-3" type="button" onclick="signInPage()">Sign In</button>
+          <button class="w-100 btn btn-lg mb-3" type="button" onclick="signInPage()" style="background-color: #4cafad ;color:white">Sign In</button>
           <!--Sign-up Button -->
-          <button class="w-100 btn btn-lg btn-success" type="button" onclick="signUpPage()">Sign Up</button>
+          <button class="w-100 btn btn-lg " type="button" onclick="signUpPage()" style="background-color: #4cafad ;color:white">Sign Up</button>
         </form>
       </div>
 
@@ -85,8 +85,8 @@
           <p v-if="passwordErr" style="color: red; font-weight: bold;">Passwords do not match</p>
           <p v-if="spacesErr" style="color: red; font-weight: bold;">No spaces allowed</p>
           <!-- Button -->
-          <button class="w-100 btn btn-lg btn-success mb-3" type="button" @click="check">Sign Up</button>
-          <button class="w-100 btn btn-lg btn-success" type="button" @click = "clear" onclick="backToPrev()" >Back</button>
+          <button class="w-100 btn btn-lg mb-3" type="button" @click="check" style="background-color: #4cafad ;color:white">Sign Up</button>
+          <button class="w-100 btn btn-lg " type="button" @click = "clear" onclick="backToPrev()" style="background-color: #4cafad ;color:white">Back</button>
         </form>
       </div>
 
@@ -106,15 +106,15 @@
           <p v-if="usernameErr" style="color: red; font-weight: bold;">Username does not exist</p>
           <p v-if="passwordErr" style="color: red; font-weight: bold;">Wrong Password</p>
           <!-- Button -->
-          <button class="w-100 btn btn-lg btn-success mb-3" type="button" @click="check">Login</button>
-          <button class="w-100 btn btn-lg btn-success" type="button" @click="clear" onclick="backToPrev()">Back</button>
+          <button class="w-100 btn btn-lg mb-3" type="button" @click="check" style="background-color:#4cafad ;color:white">Login</button>
+          <button class="w-100 btn btn-lg " type="button" @click="clear" onclick="backToPrev()" style="background-color: #4cafad ;color:white">Back</button>
         </form>
       </div>
       <!-- Successful signup -->
       <div id="signUpSuccessful" class="d-none col-md-10 mx-auto col-lg-5">
         <div class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
             <h3 style="font-weight: bolder;">Sign Up Successful</h3>
-            <button class="w-50 btn btn-lg btn-success mt-2" type="button" onclick="signInPage()">Sign In</button>
+            <button class="w-50 btn btn-lg mt-2" type="button" onclick="signInPage()" style="background-color: #4cafad ;color:white">Sign In</button>
           
         </div>
       </div>
