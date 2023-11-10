@@ -2,7 +2,6 @@
 <html>
     <head>
         <title>Chatbot</title>
-        <!-- <title>Chat</title> -->
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -12,8 +11,8 @@
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="security.js"></script>
-        <link rel="stylesheet" href="style.css" />
         <script src="logout.js"></script>
+        <link rel="stylesheet" href="style.css" />
   
     </head>
 
@@ -39,7 +38,7 @@
             padding: 0.625em;
             border-radius: 0.5em;
             cursor: pointer;
-            background-color: #1c9bef;
+            background-color: #4cafad;
             color: #fff;
             font-size: 1em;
             font-weight: bold;
@@ -54,6 +53,7 @@
             max-width: 37.5em;
             height: 38em;
             box-shadow: 0 0 1.25em 0.5em #c3c3c333;
+            margin-bottom: 2rem;
         }
 
         #chat-messages {
@@ -105,7 +105,7 @@
                         <a class="nav-link" href="wad2_index.html">Home</a> 
                     </li> 
                     <li class="nav-item"> 
-                        <a class="nav-link" href="Gareth/itinerary_page.html">Itinerary</a> 
+                        <a class="nav-link" href="itinerary_page.html">Posts</a> 
                     </li> 
                     <li class="nav-item"> 
                         <a class="nav-link active" href="Chatbot.html">Chatbot</a> 
@@ -133,7 +133,17 @@
 
     <div id="chat-container">
         <div id="chat-messages">  
-            <div id="output"></div>
+            <div id="output">
+                <div class="loading loading01" id="loading01" style="display: none;">
+                  <span>L</span>
+                  <span>O</span>
+                  <span>A</span>
+                  <span>D</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                </div>
+            </div>
         </div>
       
         <div class="chat-input-form">
@@ -162,10 +172,15 @@
 
         function generateResponse() {
             const chatInput = document.getElementById('chat-input').value;
-        
             const outputElement = document.getElementById('output');
+            const loading01 = document.getElementById('loading01');
 
-            const prompt = `${chatInput}`;
+            // Show the loading text while generating the itinerary
+            loading01.style.display = 'block';
+            output.style.display = 'block';
+
+            const prompt = `You are a friendly travel assistant who specializes in sustainable travel and you are supposed to answer all travel related questions only, 
+            so please answer the following question with your expertise: ${chatInput} sustainable`;
 
             axios.post('https://api.openai.com/v1/engines/text-davinci-003/completions',  {
                 prompt: prompt,
@@ -182,6 +197,10 @@
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                // Hide the loading text when the response is received
+                loading01.style.display = 'none';
             });
 
         }
