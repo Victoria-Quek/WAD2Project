@@ -66,3 +66,9 @@ function formatItinerary(itinerary) {
 
     return formattedItinerary;
 }
+
+function regenItinerary(){
+    window.scrollTo(0, 0);
+    setTimeout(function(){location.reload()}, 790);
+}
+
